@@ -1,5 +1,6 @@
 export type Product = {
     title: string,
     quantity: number,
-    check: boolean
+    check: boolean,
+    id: string
 }

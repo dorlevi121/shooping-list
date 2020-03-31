@@ -1,25 +1,44 @@
 import React, { Component } from "react";
 import mainStyle from "./main.module.scss";
 import { Product } from "../../models/system/product.model";
-import Header from "./components/header.main";
+import Header from "../shared/header/header";
 import { Button } from "../shared/button/button";
 import Menu from "../menu/menu";
+import { Redirect, RouteComponentProps } from "react-router";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import Loading from "../shared/loading/loading";
+import {
+  addNewProduct,
+  changePeoduct
+} from "../../store/list/list.actions";
+import { uniqueId, cloneDeep } from "lodash";
 
 interface OwnState {
-  products: Product[];
   newProduct: string;
+  authUser: any;
+  loading: boolean;
 }
 
-class Main extends Component {
+interface StateProps {
+  auth: any;
+  isLoogedIn: boolean;
+  allProducts: Product[];
+  profile: any;
+}
+
+interface DispatchProps {
+  addNewProduct: typeof addNewProduct;
+  changePeoduct: typeof changePeoduct;
+}
+
+type Props = StateProps & DispatchProps;
+
+class Main extends Component<Props> {
   state: OwnState = {
-    products: [
-      { title: "חלב", quantity: 2, check: false },
-      { title: "לחם", quantity: 1, check: false },
-      { title: "גבינה", quantity: 4, check: false },
-      { title: "כריות", quantity: 6, check: false },
-      { title: "קוטג'", quantity: 1, check: true }
-    ],
-    newProduct: ""
+    newProduct: "",
+    authUser: null,
+    loading: false
   };
 
   updateInputValue = (e: any) => {
@@ -29,68 +48,139 @@ class Main extends Component {
   };
 
   addNewProduct = () => {
-    const quantity:number = parseInt(this.state.newProduct.slice(-1));
+    const findQuantity: any = this.state.newProduct.match(/\d/g);
+    let numb = "",
+      quantity: number;
+
+    if (findQuantity !== null) {
+      numb = findQuantity.join("");
+      quantity = parseInt(numb);
+    } else quantity = 1;
+
     const newProduct: Product = {
       check: false,
       quantity: quantity,
-      title: this.state.newProduct.slice(0, this.state.newProduct.length-1)
+      title: this.state.newProduct.slice(
+        0,
+        this.state.newProduct.length - numb.length
+      ),
+      id: uniqueId()
     };
-    const allProduct = [...this.state.products];
-    allProduct.push(newProduct);
-    this.setState({
-      products: [...allProduct],
-      newProduct: ""
-    });
+    const products = this.props.allProducts;
+    products.unshift(newProduct);
+    this.props.addNewProduct(cloneDeep(products));
+    this.setState({ newProduct: "" });
+  };
+
+  deleteProduct = (product: Product, i: number) => {
+    const products = this.props.allProducts; 
+    products.splice(i, 1)           
+    this.props.changePeoduct(cloneDeep(products));
+  };
+
+  checkedProduct = (product: Product, i: number) => {
+    const products = this.props.allProducts;
+
+    products[i].check = !products[i].check;
+    products.sort((x, y) => x.check === y.check ? 0 : x.check ? 1 : -1);
+    
+    this.props.changePeoduct(cloneDeep(products));
   };
 
   render() {
+    if (!this.props.isLoogedIn) return <Redirect to="/signin" />;
+
     return (
       <div className={mainStyle.Main}>
-        <Header username="dor levi" />
-        <Menu />
-        <div className={mainStyle.Content}>
-          <div className={mainStyle.AddProduct}>
-            <input
-              type="text"
-              maxLength={20}
-              placeholder="הוסף מוצר חדש..."
-              value={this.state.newProduct}
-              onChange={this.updateInputValue}
-            />
-            <div onClick={this.addNewProduct}>
-              <Button title="הוסף" />
+        <Header
+          title="רשימת הקניות שלי"
+          username={
+            this.props.profile.firstName + " " + this.props.profile.lastName
+          }
+        />
+        {this.state.loading && <Loading />}
+        {!this.state.loading && (
+          <div>
+            <Menu />
+            <div className={mainStyle.Content}>
+              <div className={mainStyle.AddProduct}>
+                <input
+                  type="text"
+                  maxLength={20}
+                  placeholder="הוסף מוצר חדש..."
+                  value={this.state.newProduct}
+                  onChange={this.updateInputValue}
+                />
+                <div onClick={this.addNewProduct}>
+                  <Button title="הוסף" />
+                </div>
+              </div>
+
+              <div className={mainStyle.Products}>
+                <ul>
+                  {this.props.allProducts.map((product: Product, i: number) => {
+                    if (product.check) {
+                      return (
+                        <li key={i} className={mainStyle.CheckedItem}>
+                          <p
+                            className={mainStyle.DeleteChecked}
+                            onClick={() => this.deleteProduct(product, i)}
+                          >
+                            X
+                          </p>
+                          {product.title} - {product.quantity}
+                          <p
+                            className={mainStyle.CheckChecked}
+                            onClick={() => this.checkedProduct(product, i)}
+                          >
+                            ✔
+                          </p>
+                        </li>
+                      );
+                    }
+                    return (
+                      <li key={i} className={mainStyle.Item}>
+                        <p
+                          className={mainStyle.Delete}
+                          onClick={() => this.deleteProduct(product, i)}
+                        >
+                          X
+                        </p>
+                        {product.title} - {product.quantity}
+                        <p
+                          className={mainStyle.Check}
+                          onClick={() => this.checkedProduct(product, i)}
+                        >
+                          ✔
+                        </p>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+              <div className={mainStyle.Order}>
+                <Button title="הזמן" />
+              </div>
             </div>
           </div>
-
-          <div className={mainStyle.Products}>
-            <ul>
-              {this.state.products.map((product: Product) => {
-                if (product.check) {
-                  return (
-                    <li className={mainStyle.CheckedItem}>
-                      <p className={mainStyle.DeleteChecked}>X</p>
-                      {product.title} - {product.quantity}
-                      <p className={mainStyle.CheckChecked}>✔</p>
-                    </li>
-                  );
-                }
-                return (
-                  <li className={mainStyle.Item}>
-                    <p className={mainStyle.Delete}>X</p>
-                    {product.title} - {product.quantity}
-                    <p className={mainStyle.Check}>✔</p>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-          <div className={mainStyle.Order}>
-            <Button title="הזמן" />
-          </div>
-        </div>
+        )}
       </div>
     );
   }
 }
 
-export default Main;
+const mapStateToProps = (state: any) => ({
+  auth: state.firebase.auth,
+  profile: state.firebase.profile,
+  isLoogedIn: state.auth.isLoggedIn,
+  allProducts: state.list.allProducts
+});
+
+const mapsDispatchToProps = (dispacth: any) => ({
+  addNewProduct: (products: Product []) => dispacth(addNewProduct(products)),
+  changePeoduct: (products: Product []) => dispacth(changePeoduct(products)),
+});
+
+export default compose<any>(
+  connect<StateProps, DispatchProps>(mapStateToProps, mapsDispatchToProps)
+)(Main);

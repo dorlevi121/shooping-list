@@ -1,17 +1,47 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+import { createStore, applyMiddleware, compose } from "redux";
+import { rootReducer } from "./store/rootReducers";
+import thunk from "redux-thunk";
+import {
+  reduxFirestore,
+  getFirestore,
+  createFirestoreInstance
+} from "redux-firestore";
+import { ReactReduxFirebaseProvider, getFirebase } from "react-redux-firebase";
+import fbConfig from "./firebase/config.firebase";
+import firebase from "firebase/app";
+import { Provider } from "react-redux";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+const store = createStore(
+  rootReducer,
+  compose(
+    applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase })),
+    reduxFirestore(fbConfig)
+  )
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+const config = {
+  userProfile: "users", // where profiles are stored in database,
+  useFirestoreForProfile: true
+};
+
+const rrfProps = {
+  firebase,
+  config,
+  dispatch: store.dispatch,
+  createFirestoreInstance
+};
+
+ReactDOM.render(
+  <Provider store={store}>
+    <ReactReduxFirebaseProvider {...rrfProps}>
+      <App />
+    </ReactReduxFirebaseProvider>
+  </Provider>,
+  document.getElementById("root")
+);
 serviceWorker.unregister();

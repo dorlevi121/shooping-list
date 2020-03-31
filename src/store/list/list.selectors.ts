@@ -1,0 +1,1 @@
+export const getAllProduct = (state: any) => state.list.allProducts;

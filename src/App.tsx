@@ -1,12 +1,18 @@
 import React from "react";
-import Main from "./components/main/main";
+import Routing from "./app.routing";
+import { BrowserRouter } from "react-router-dom";
+import Listener from "./components/auth/listener";
 
 function App() {
   return (
-    <div>
-      <Main />
-    </div>
+    <BrowserRouter>
+      <div>
+        <Routing />
+        <Listener/>
+      </div>
+    </BrowserRouter>
   );
 }
+
 
 export default App;

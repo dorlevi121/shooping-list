@@ -1,14 +1,25 @@
 import menuStyle from "./menu.module.scss";
 import React, { Component } from "react";
+import { signOut, signUp } from "../../store/auth/auth.actions";
+import { connect } from "react-redux";
 
 interface OwnState {
   open: boolean;
 }
 
-class Menu extends Component {
+interface StateProps {}
+
+interface DispatchProps {
+  signOut: typeof signOut;
+}
+
+type Props = StateProps & DispatchProps;
+
+class Menu extends Component<Props> {
   state: OwnState = {
     open: false
   };
+
   sideBarStyle: any = {
     transform: "translateX(100%)"
   };
@@ -39,8 +50,8 @@ class Menu extends Component {
 
         <div className={menuStyle.SideBar} style={this.sideBarStyle}>
           <div className={menuStyle.Content}>
-          <a href='/'>הסטוריית קניות</a>
-          <a href='/'>התנתק</a>
+            <a href="/">הסטוריית קניות</a>
+            <a onClick={this.props.signOut} href="/signin">התנתק</a>
           </div>
         </div>
       </div>
@@ -48,4 +59,11 @@ class Menu extends Component {
   }
 }
 
-export default Menu;
+const mapDispatchToProps = (dispatch: any) => ({
+  signOut: () => dispatch(signOut())
+});
+
+export default connect<StateProps, DispatchProps>(
+  null,
+  mapDispatchToProps
+)(Menu);

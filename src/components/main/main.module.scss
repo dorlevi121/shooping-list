@@ -20,8 +20,7 @@
     & .AddProduct {
       display: flex;
       justify-content: space-between;
-      height: 40%;
-      margin-top: 2%;
+      margin-top: 4%;
 
       @include respond(phone) {
         margin-top: 8%;
@@ -30,12 +29,13 @@
       @include respond(tab-900) {
         margin-top: 5%;
       }
+
       & input {
         width: 70%;
         border: none;
         color: rgba(0, 0, 0, 0.87);
         font-size: $text-size;
-        padding: 1% 2%;
+        padding: 10px;
 
         &::placeholder {
           color: rgba(0, 0, 0, 0.38);
@@ -54,6 +54,7 @@
         }
       }
       & div {
+        width: 20%;
         & button {
           height: 100%;
           width: 100%;
@@ -129,6 +130,9 @@
 
     & .Order {
       text-align: center;
+      & Button {
+        padding: 10px;
+      }
     }
   }
 }

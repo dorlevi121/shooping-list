@@ -1,0 +1,1 @@
+export const historyList = (state: any) => state.historyList.historyList

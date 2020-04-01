@@ -13,7 +13,7 @@ const Header: React.FC<OwnProps> = props => {
       <header>
         <div className={headerStyle.Header}>
           {props.username && (
-            <h3 className={headerStyle.Username}>,שלום {props.username} </h3>
+            <h3 className={headerStyle.Username}>שלום, {props.username}. </h3>
           )}
           <h1 className={headerStyle.Title}>{props.title}</h1>
         </div>

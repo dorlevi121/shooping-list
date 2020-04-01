@@ -39,6 +39,7 @@ export const signUp = (newUser: User) => {
         firstName: newUser.firstName,
         lastName: newUser.lastName,
         shoppingList: [],
+        historyList: [],
         registrationDate: new Date()
       });
     }).then(() => {

@@ -34,7 +34,7 @@ class SignIn extends Component<Props> {
       email: "",
       password: ""
     },
-    loading: true
+    loading: false
   };
 
   shouldComponentUpdate(nextProps: Props, nextState: OwnState) {
@@ -59,10 +59,8 @@ class SignIn extends Component<Props> {
   };
 
   render() {
-    setTimeout(() => {
-      this.setState({ loading: false });
-    }, 1500);
     if (this.props.isLoogedIn) return <Redirect to="/" />;
+
     return (
       <div className={formStyle.Form}>
         <Header title="התחבר" />

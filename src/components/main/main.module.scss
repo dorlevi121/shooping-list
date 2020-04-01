@@ -37,9 +37,16 @@
         font-size: $text-size;
         padding: 10px;
 
+        @include respond(phone) {
+          width: 60%;
+        }
+
         &::placeholder {
           color: rgba(0, 0, 0, 0.38);
           font-size: $text-size;
+          @include respond(phone) {
+            font-size: 1rem;
+          }
         }
 
         &:focus {
@@ -55,6 +62,9 @@
       }
       & div {
         width: 20%;
+        @include respond(phone) {
+          width: 25%;
+        }
         & button {
           height: 100%;
           width: 100%;
@@ -63,11 +73,12 @@
     }
 
     & .Products {
-      overflow: auto;
       margin-top: 5%;
       & ul {
+        overflow: auto;
         padding: 0;
         list-style-type: none;
+        max-height: 45vh;
         clear: both;
 
         & .Item {
@@ -85,14 +96,14 @@
             background: $background-product-color2;
           }
 
-          & .Delete {
+          & .DeleteChecked {
             cursor: pointer;
             float: left;
             margin: -5px;
             padding: 5px 9px;
           }
 
-          & .Check {
+          & .CheckChecked {
             cursor: pointer;
             float: right;
             margin: -5px;

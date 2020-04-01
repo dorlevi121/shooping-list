@@ -30,7 +30,7 @@ export const addNewProduct = (products: Product []) => {
     }
 }
 
-export const changePeoduct = (products: Product []) => {
+export const changeProduct = (products: Product []) => {
     return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
         const firestore = getFirestore();
         const authId = getState().firebase.auth.uid;

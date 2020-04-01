@@ -1,0 +1,50 @@
+@import "../../../../models/SASS/main.scss";
+
+.Order {
+  & .Input {
+    height: 20%;
+    padding-top: 2%;
+
+    & input {
+      width: 30%;
+      color: rgba(0, 0, 0, 0.87);
+      padding: 10px;
+      border: 2px solid $background-header-color;
+      border-radius: 2px;
+      //font-size: $text-size;
+
+      @include respond(phone) {
+        width: 60%;
+      }
+
+      &::placeholder {
+        color: rgba(0, 0, 0, 0.38);
+        font-size: $text-size;
+        @include respond(phone) {
+          font-size: 1rem;
+        }
+      }
+
+      &:focus {
+        outline: none;
+        -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+        border: 2px solid rgba($color: $background-header-color, $alpha: 0.6);
+
+        &::placeholder {
+          // visibility: hidden;
+        }
+      }
+    }
+
+    & input[type="number"] {
+    }
+
+    & input[type="number"]::-webkit-inner-spin-button,
+    & input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+}

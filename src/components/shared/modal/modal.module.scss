@@ -1,0 +1,73 @@
+@import "../../../models/SASS/main.scss";
+
+.ModalBackground {
+  position: absolute;
+  background-color: rgba($color: #000000, $alpha: 0.5);
+  height: 100vh;
+  width: 100vw;
+
+  & .Modal {
+    width: 40%;
+    height: 50%;
+    margin: 10% auto;
+    animation: scoot-up .6s ease-in-out;
+
+    & .Header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 20%;
+      background-color: $background-color;
+
+      & h1 {
+        display: inline;
+        margin-right: 5%;
+      }
+
+      & span {
+        display: inline;
+        color: $text-color;
+        text-decoration: none;
+        font-size: 3rem;
+        font-weight: 100;
+        margin-left: 5%;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        @media (max-width: 600px) {
+          font-size: 2rem;
+        }
+      }
+
+      & :hover {
+        color: #888;
+      }
+    }
+
+    & .Content {
+      background-color: white;
+      height: 50%;
+      & .Text {
+        margin-right: 10%;
+      }
+    }
+
+    & .Footer {
+      height: 20%;
+      background-color: $background-color;
+
+      & button {
+        margin-right: 5%;
+        margin-top: 2%;
+      }
+    }
+  }
+}
+
+@keyframes scoot-up {
+  0% {
+    margin: -20% auto;
+  }
+  100% {
+    margin: 10% auto;
+  }
+}

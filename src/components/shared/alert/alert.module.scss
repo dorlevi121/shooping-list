@@ -1,0 +1,89 @@
+@import "../../../models/SASS/main.scss";
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
+
+.Alert {
+  width: 25%;
+  height: 10%;
+  position: absolute;
+  top: 5%; /* position the top  edge of the element at the middle of the parent */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  animation: alert .5s ease-in-out;
+
+  @include respond(phone) {
+    width: 60%;
+  }
+  @include respond(tab-900) {
+    width: 60%;
+  }
+  @include respond(tab-1200) {
+    width: 60%;
+  }
+
+  & .Massage {
+    font-size: 1rem;
+    font-weight: 100;
+    letter-spacing: 1px;
+    text-align: center;
+
+
+    & .Warn {
+      color: #9f6000;
+      background-color: #feefb3;
+      border: 1px solid darken(#feefb3, 15%);
+      border-radius: 5px;
+      padding: 1%;
+
+      &:before {
+        content: "\f071    ";
+        font-family: "FontAwesome";
+      }
+    }
+    & .Info {
+      color: #00529b;
+      background-color: #bde5f8;
+      border: 1px solid darken(#bde5f8, 15%);
+      border-radius: 5px;
+      padding: 1%;
+
+      &:before {
+        content: "\f05a    ";
+        font-family: "FontAwesome";
+      }
+    }
+    & .Error {
+      color: #d8000c;
+      background-color: #ffbaba;
+      border: 1px solid darken(#ffbaba, 15%);
+      border-radius: 5px;
+      padding: 1%;
+
+      &:before {
+        content: "\f057    ";
+        font-family: "FontAwesome";
+      }
+    }
+    & .Success {
+      color: #4f8a10;
+      background-color: #dff2bf;
+      border: 1px solid darken(#dff2bf, 15%);
+      border-radius: 5px;
+      padding: 1%;
+
+      &:before {
+        content: "\f058    ";
+        font-family: "FontAwesome";
+      }
+    }
+  }
+}
+
+@keyframes alert {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

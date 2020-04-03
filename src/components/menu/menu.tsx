@@ -2,12 +2,15 @@ import menuStyle from "./menu.module.scss";
 import React, { Component } from "react";
 import { signOut, signUp } from "../../store/auth/auth.actions";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 interface OwnState {
   open: boolean;
 }
 
-interface StateProps {}
+interface StateProps {
+  isLoogedIn: boolean;
+}
 
 interface DispatchProps {
   signOut: typeof signOut;
@@ -33,6 +36,7 @@ class Menu extends Component<Props> {
   };
 
   render() {
+    if (!this.props.isLoogedIn) return null;
     return (
       <div className={menuStyle.Menu}>
         <div className={menuStyle.Button}>
@@ -50,8 +54,11 @@ class Menu extends Component<Props> {
 
         <div className={menuStyle.SideBar} style={this.sideBarStyle}>
           <div className={menuStyle.Content}>
-            <a href="/">הסטוריית קניות</a>
-            <a onClick={this.props.signOut} href="/signin">התנתק</a>
+            <Link to="/">רשימת קניות</Link>
+            <Link to="/history">הסטוריית קניות</Link>
+            <a href="/signin" onClick={this.props.signOut} >
+              התנתק
+            </a>
           </div>
         </div>
       </div>
@@ -59,11 +66,15 @@ class Menu extends Component<Props> {
   }
 }
 
+const mapStateToProps = (state: any) => ({
+  isLoogedIn: state.auth.isLoggedIn
+});
+
 const mapDispatchToProps = (dispatch: any) => ({
   signOut: () => dispatch(signOut())
 });
 
 export default connect<StateProps, DispatchProps>(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Menu);

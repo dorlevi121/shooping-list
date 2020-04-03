@@ -10,7 +10,7 @@
       margin-top: 2%;
       margin-right: 2%;
       border-radius: 50%;
-      z-index: 2000;
+      z-index: 1;
       text-align: center;
       cursor: pointer;
 
@@ -100,7 +100,14 @@
         display: block;
         color: $text-color;
         font-size: $text-size;
-        text-decoration: none;
+        text-decoration: none; 
+
+        &:hover , &:focus {
+          color: $background-header-color;
+          display: block;
+
+        }
+        
       }
     }
   }

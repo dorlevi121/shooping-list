@@ -5,9 +5,8 @@ import { User } from "../../../models/system/user.model";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { signUp } from "../../../store/auth/auth.actions";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import Loading from "../../shared/loading/loading";
-import Header from "../../shared/header/header";
 
 interface OwnState {
   form: User;
@@ -22,6 +21,7 @@ interface StateProps {
 
 interface DispatchProps {
   signUp: typeof signUp;
+  headerDetails: any;
 }
 
 type Props = DispatchProps & StateProps;
@@ -38,6 +38,7 @@ class SignUp extends Component<Props> {
   };
 
   shouldComponentUpdate(nextProps: Props, nextState: OwnState) {
+    this.props.headerDetails("התחבר", "")    
     if (this.props.authError !== nextProps.authError) {
       this.setState({ loading: false });
       return true;
@@ -66,7 +67,6 @@ class SignUp extends Component<Props> {
 
     return (
       <div className={formStyle.Form}>
-        <Header title="התחבר" />
         {this.state.loading && <Loading />}
 
         {!this.state.loading && (
@@ -139,7 +139,7 @@ class SignUp extends Component<Props> {
               <Button title="הרשמה" />
             </div>
             <div className={formStyle.ChangePage}>
-              <a href="/signin">התחבר</a>
+              <Link to="/signin">התחבר</Link>
             </div>
             {this.props.authError && <p>{this.props.authError}</p>}
           </form>
@@ -156,7 +156,9 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  signUp: (user: any) => dispatch(signUp(user))
+  signUp: (user: any) => dispatch(signUp(user)),
+  headerDetails: (title: string, user: string) =>
+    dispatch({ type: "HEADER_TITLE", title: title, user: user })
 });
 
 export default compose<any>(

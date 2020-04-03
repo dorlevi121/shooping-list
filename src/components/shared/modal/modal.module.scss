@@ -5,12 +5,33 @@
   background-color: rgba($color: #000000, $alpha: 0.5);
   height: 100vh;
   width: 100vw;
+  top: 0;
+  left: 0;
+  z-index: 2;
 
   & .Modal {
     width: 40%;
     height: 50%;
     margin: 10% auto;
-    animation: scoot-up .6s ease-in-out;
+    animation: scoot-up 0.6s ease-in-out;
+
+    @include respond(phone) {
+      width: 100%;
+      height: 40%;
+      margin-top: 40%;
+    }
+
+    @include respond(tab-900) {
+      width: 100%;
+      height: 40%;
+      margin-top: 40%;
+    }
+
+    @include respond(tab-1200) {
+      width: 100%;
+      height: 40%;
+      margin-top: 40%;
+    }
 
     & .Header {
       display: flex;
@@ -21,6 +42,7 @@
 
       & h1 {
         display: inline;
+        font-weight: 500;
         margin-right: 5%;
       }
 
@@ -39,7 +61,7 @@
       }
 
       & :hover {
-        color: #888;
+        color: $background-header-color;
       }
     }
 

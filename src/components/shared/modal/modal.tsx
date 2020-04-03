@@ -10,7 +10,7 @@ interface OwnProps {
 
 const Modal: React.FC<OwnProps> = props => {
   return (
-    <div className={modalStyle.ModalBackground}>
+    <div className={modalStyle.ModalBackground} >
       <div className={modalStyle.Modal}>
         <div className={modalStyle.Header}>
           <h1>{props.title}</h1>

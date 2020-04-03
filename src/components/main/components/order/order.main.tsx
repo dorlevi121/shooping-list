@@ -1,13 +1,19 @@
 import React, { Component } from "react";
 import Modal from "../../../shared/modal/modal";
 import orderStyle from "./order.module.scss";
+import Alert from "../../../shared/alert/alert";
 
 interface OwnState {
   form: { supermarket: string; price: number | string; name: string };
+  alert: boolean
 }
 interface OwnProps {
   openModal: () => void;
-  onOrder: (form: { supermarket: string; price: number | string; name: string }) => void;
+  onOrder: (form: {
+    supermarket: string;
+    price: number | string;
+    name: string;
+  }) => void;
 }
 
 export default class Order extends Component<OwnProps> {
@@ -16,7 +22,8 @@ export default class Order extends Component<OwnProps> {
       supermarket: "",
       price: "",
       name: ""
-    }
+    },
+    alert: false
   };
 
   handleChange = (e: any) => {
@@ -29,7 +36,12 @@ export default class Order extends Component<OwnProps> {
 
   render() {
     return (
-      <Modal onClickButton={()=>this.props.onOrder(this.state.form)} title="הזמן סל קניות" close={() => this.props.openModal()}>
+      <Modal
+        onClickButton={() => this.props.onOrder(this.state.form)}
+        title="הזמן סל קניות"
+        close={() => this.props.openModal()}
+      >
+
         <div className={orderStyle.Order}>
           <form action="">
             {/* Supermarker Name */}

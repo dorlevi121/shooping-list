@@ -1,6 +1,7 @@
 export interface AuthState {
     authError: string,
-    isLoggedIn: boolean
+    isLoggedIn: boolean,
+    header: {title: string, user?: string}
 }
 
 export enum AuthActionsEnum {
@@ -9,7 +10,8 @@ export enum AuthActionsEnum {
     SIGNUP_SUCCESS = "SIGNUP_SUCCESS",
     SIGNUP_ERROR = "SIGNUP_ERROR",
     SIGNOUT_SUCCESS = "SIGNOUT_SUCCESS",
-    IS_LOGGED_IN = "IS_LOGGED_IN"
+    IS_LOGGED_IN = "IS_LOGGED_IN",
+    HEADER_TITLE = "HEADER_TITLE"
 }
 
 export interface AuthActionPattern {
@@ -40,4 +42,10 @@ export interface signUpErrorActionType extends AuthActionPattern {
 
 export interface isLoggedInActionType extends AuthActionPattern {
     type: AuthActionsEnum.IS_LOGGED_IN
+}
+
+export interface headerTitleActionType extends AuthActionPattern {
+    type: AuthActionsEnum.HEADER_TITLE,
+    title: string,
+    user?: string
 }

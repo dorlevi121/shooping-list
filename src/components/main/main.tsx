@@ -14,12 +14,18 @@ import Order from "./components/order/order.main";
 import ProductConponent from "./components/product/product.main";
 import { addNewListToHistory } from "../../store/history-list/history.actions";
 import { List } from "../../models/system/list.model";
+import Alert from "../shared/alert/alert";
+import { headerDetails } from "../../store/auth/auth.selectors";
+import { log } from "util";
+
+const initialAlert = { show: false, type: "", text: "" };
 
 interface OwnState {
   newProduct: string;
   authUser: any;
   loading: boolean;
   modal: boolean;
+  alert: { show: boolean; type: string; text: string };
 }
 
 interface StateProps {
@@ -27,13 +33,14 @@ interface StateProps {
   isLoogedIn: boolean;
   allProducts: Product[];
   profile: any;
-  historyList: List []
+  historyList: List[];
 }
 
 interface DispatchProps {
   addNewProduct: typeof addNewProduct;
   changePeoduct: typeof changeProduct;
   addListToHistoryList: typeof addNewListToHistory;
+  headerDetails: any;
 }
 
 type Props = StateProps & DispatchProps;
@@ -43,9 +50,19 @@ class Main extends Component<Props> {
     newProduct: "",
     authUser: null,
     loading: false,
-    modal: false
+    modal: false,
+    alert: initialAlert
   };
 
+  shouldComponentUpdate(nextProps: Props, nextState: OwnState) {
+    if (nextProps.isLoogedIn) {
+      nextProps.headerDetails(
+        "רשימת קניות",
+        nextProps.profile.firstName + " " + nextProps.profile.lastName
+      );
+    }
+    return true;
+  }
   updateInputValue = (e: any) => {
     this.setState({
       newProduct: e.target.value
@@ -53,6 +70,7 @@ class Main extends Component<Props> {
   };
 
   addNewProduct = () => {
+    if (this.state.newProduct.length < 2) return;
     const findQuantity: any = this.state.newProduct.match(/\d/g);
     let numb = "",
       quantity: number;
@@ -93,13 +111,32 @@ class Main extends Component<Props> {
   };
 
   openModal = () => {
+    const checkedProducts = this.props.allProducts.filter(
+      (p: Product) => p.check
+    );
+    if (checkedProducts.length < 1) {
+      this.showAlert("error", "לא נבחרו פריטים" )
+      return;
+    }
     this.setState({ modal: !this.state.modal });
   };
 
-  onOrder = (form: { supermarket: string, price: number | string, name: string }) => {
-    const historyList: List [] = this.props.historyList;
-    const checkedProducts = this.props.allProducts.filter((p: Product) => p.check);
-    const unCheckedProducts = this.props.allProducts.filter((p: Product) => !p.check);
+  onOrder = (form: {
+    supermarket: string;
+    price: number | string;
+    name: string;
+  }) => {
+    if (form.price < 1 || form.supermarket.length < 2 || form.name.length < 2) {
+      this.showAlert("error", "שגיאה במילוי הטופס" )
+      return;
+    }
+    const checkedProducts = this.props.allProducts.filter(
+      (p: Product) => p.check
+    );
+    const unCheckedProducts = this.props.allProducts.filter(
+      (p: Product) => !p.check
+    );
+    const historyList: List[] = this.props.historyList;
 
     const newList: List = {
       buyer: form.name,
@@ -108,33 +145,39 @@ class Main extends Component<Props> {
       price: form.price,
       products: checkedProducts
     };
-    
+
     historyList.unshift(newList);
     this.props.addListToHistoryList(cloneDeep(historyList));
     this.props.changePeoduct(cloneDeep(unCheckedProducts));
     this.setState({modal: false})
+    this.showAlert("success", "ההזמנה בוצעה בהצלחה")
+  };
+
+  showAlert = (type: string, text: string) => {
+    const alert = { show: true, type: type, text: text };
+    this.setState({ alert: alert });
+    setTimeout(() => {
+      this.setState({ alert: initialAlert });
+    }, 1500);
   };
 
   render() {
-    // setTimeout(() => {
-    //   this.setState({ loading: false });
-    // }, 1500);
-
     if (!this.props.isLoogedIn) return <Redirect to="/signin" />;
 
     return (
       <div className={mainStyle.Main}>
-        {this.state.modal && <Order onOrder={this.onOrder} openModal={this.openModal} />}
-        <Header
-          title="רשימת הקניות שלי"
-          username={
-            this.props.profile.firstName + " " + this.props.profile.lastName
-          }
-        />
+        {this.state.modal && (
+          <Order onOrder={this.onOrder} openModal={this.openModal} />
+        )}
+
         {this.state.loading && <Loading />}
+        {this.state.alert.show && (
+          <Alert type={this.state.alert.type} text={this.state.alert.text} />
+        )}
+
         {!this.state.loading && (
           <React.Fragment>
-            <Menu />
+            {/* <Menu /> */}
             <div className={mainStyle.Content}>
               <div className={mainStyle.AddProduct}>
                 <input
@@ -196,10 +239,12 @@ const mapStateToProps = (state: any) => ({
   historyList: state.historyList.historyList
 });
 
-const mapsDispatchToProps = (dispacth: any) => ({
-  addNewProduct: (products: Product[]) => dispacth(addNewProduct(products)),
-  changePeoduct: (products: Product[]) => dispacth(changeProduct(products)),
-  addListToHistoryList: (lists: any) => dispacth(addNewListToHistory(lists))
+const mapsDispatchToProps = (dispatch: any) => ({
+  addNewProduct: (products: Product[]) => dispatch(addNewProduct(products)),
+  changePeoduct: (products: Product[]) => dispatch(changeProduct(products)),
+  addListToHistoryList: (lists: any) => dispatch(addNewListToHistory(lists)),
+  headerDetails: (title: string, user: string) =>
+    dispatch({ type: "HEADER_TITLE", title: title, user: user })
 });
 
 export default compose<any>(

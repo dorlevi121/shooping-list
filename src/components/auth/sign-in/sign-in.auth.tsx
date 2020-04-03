@@ -4,9 +4,8 @@ import { Button } from "../../shared/button/button";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { signIn } from "../../../store/auth/auth.actions";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import Loading from "../../shared/loading/loading";
-import Header from "../../shared/header/header";
 
 interface OwnState {
   form: {
@@ -24,6 +23,7 @@ interface StateProps {
 
 interface DispatchProps {
   signIn: typeof signIn;
+  headerDetails: any
 }
 
 type Props = DispatchProps & StateProps;
@@ -38,6 +38,7 @@ class SignIn extends Component<Props> {
   };
 
   shouldComponentUpdate(nextProps: Props, nextState: OwnState) {
+    this.props.headerDetails("התחבר", "")    
     if (this.props.authError !== nextProps.authError && !nextProps.isLoogedIn) {
       this.setState({ loading: false });
       return true;
@@ -63,7 +64,6 @@ class SignIn extends Component<Props> {
 
     return (
       <div className={formStyle.Form}>
-        <Header title="התחבר" />
         {this.state.loading && <Loading />}
 
         {!this.state.loading && (
@@ -105,7 +105,7 @@ class SignIn extends Component<Props> {
             </div>
 
             <div className={formStyle.ChangePage}>
-              <a href="/signup">הרשם</a>
+              <Link to="/signup">הרשם</Link>
             </div>
             {this.props.authError && (
               <p>
@@ -126,7 +126,9 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  signIn: (credential: any) => dispatch(signIn(credential))
+  signIn: (credential: any) => dispatch(signIn(credential)),
+  headerDetails: (title: string, user: string) =>
+    dispatch({ type: "HEADER_TITLE", title: title, user: user })
 });
 
 export default compose<any>(

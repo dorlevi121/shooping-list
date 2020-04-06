@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import mainStyle from "./main.module.scss";
 import { Product } from "../../models/system/product.model";
-import Header from "../shared/header/header";
 import { Button } from "../shared/button/button";
-import Menu from "../menu/menu";
 import { Redirect } from "react-router";
 import { compose } from "redux";
 import { connect } from "react-redux";
@@ -15,8 +13,8 @@ import ProductConponent from "./components/product/product.main";
 import { addNewListToHistory } from "../../store/history-list/history.actions";
 import { List } from "../../models/system/list.model";
 import Alert from "../shared/alert/alert";
-import { headerDetails } from "../../store/auth/auth.selectors";
-import { log } from "util";
+import { myShoppingListHeader } from "../../assets/language/textConfig";
+import { userLanguage } from "../../store/auth/auth.selectors";
 
 const initialAlert = { show: false, type: "", text: "" };
 
@@ -34,6 +32,7 @@ interface StateProps {
   allProducts: Product[];
   profile: any;
   historyList: List[];
+  language: number
 }
 
 interface DispatchProps {
@@ -56,8 +55,9 @@ class Main extends Component<Props> {
 
   shouldComponentUpdate(nextProps: Props, nextState: OwnState) {
     if (nextProps.isLoogedIn) {
+      const str = myShoppingListHeader[nextProps.language]
       nextProps.headerDetails(
-        "רשימת קניות",
+      str,
         nextProps.profile.firstName + " " + nextProps.profile.lastName
       );
     }
@@ -183,7 +183,7 @@ class Main extends Component<Props> {
                 <input
                   type="text"
                   maxLength={20}
-                  placeholder="הוסף מוצר חדש..."
+                  placeholder={this.props.language === 1? "הוסף מוצר חדש..." : "Add new product"}
                   value={this.state.newProduct}
                   onChange={this.updateInputValue}
                 />
@@ -236,7 +236,8 @@ const mapStateToProps = (state: any) => ({
   profile: state.firebase.profile,
   isLoogedIn: state.auth.isLoggedIn,
   allProducts: state.list.allProducts,
-  historyList: state.historyList.historyList
+  historyList: state.historyList.historyList,
+  language: userLanguage(state)
 });
 
 const mapsDispatchToProps = (dispatch: any) => ({

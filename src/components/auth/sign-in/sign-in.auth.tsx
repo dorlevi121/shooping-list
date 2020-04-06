@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import { signIn } from "../../../store/auth/auth.actions";
 import { Redirect, Link } from "react-router-dom";
 import Loading from "../../shared/loading/loading";
+import { userLanguage } from "../../../store/auth/auth.selectors";
+import { guestSignInHeader } from "../../../assets/language/textConfig";
 
 interface OwnState {
   form: {
@@ -19,6 +21,7 @@ interface StateProps {
   authError: string;
   auth: any;
   isLoogedIn: boolean;
+  userLanguage: number
 }
 
 interface DispatchProps {
@@ -37,8 +40,8 @@ class SignIn extends Component<Props> {
     loading: false
   };
 
-  shouldComponentUpdate(nextProps: Props, nextState: OwnState) {
-    this.props.headerDetails("התחבר", "")    
+  shouldComponentUpdate(nextProps: Props, nextState: OwnState) {            
+    this.props.headerDetails(guestSignInHeader[nextProps.userLanguage], "")    
     if (this.props.authError !== nextProps.authError && !nextProps.isLoogedIn) {
       this.setState({ loading: false });
       return true;
@@ -122,7 +125,8 @@ class SignIn extends Component<Props> {
 const mapStateToProps = (state: any) => ({
   authError: state.auth.authError,
   auth: state.firebase.auth,
-  isLoogedIn: state.auth.isLoggedIn
+  isLoogedIn: state.auth.isLoggedIn,
+  userLanguage: userLanguage(state)
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

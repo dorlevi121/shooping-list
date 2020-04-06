@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Assistant:300,400,600,700,800&display=swap&subset=hebrew");
 body {
   margin: 0;
-  direction: rtl;
   height: 100%;
   background: #9575cd;
   color: #ffffff;

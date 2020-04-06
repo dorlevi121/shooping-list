@@ -3,7 +3,7 @@ import { User } from "../../models/system/user.model";
 export const signIn = (credentials: { email: string, password: string }) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
     const firebase = getFirebase();
-      
+
     firebase.auth().signInWithEmailAndPassword(
       credentials.email,
       credentials.password
@@ -40,6 +40,7 @@ export const signUp = (newUser: User) => {
         lastName: newUser.lastName,
         shoppingList: [],
         historyList: [],
+        language: newUser.language,
         registrationDate: new Date()
       });
     }).then(() => {
@@ -47,5 +48,40 @@ export const signUp = (newUser: User) => {
     }).catch((err: any) => {
       dispatch({ type: 'SIGNUP_ERROR', err });
     });
+  }
+}
+
+export const initialLanguage = () => {
+  return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
+    const firestore = getFirestore();
+    const authId = getState().firebase.auth.uid;
+
+    firestore.doc(`users/${authId}`).get().then((doc: any) => { //get user
+      const language = doc.data().language;
+      console.log("language: " + language);
+
+      dispatch({ type: 'USER_LANGUAGE', language: language });
+    }).catch((error: Error) => {
+      dispatch({ type: 'PRODUCT_ERROR', error });
+    })
+  }
+}
+
+export const changeLanguage = (language: 'hebrew' | 'english') => {
+  return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
+    const firestore = getFirestore();
+    const authId = getState().firebase.auth.uid;
+
+    if (!authId) {
+      dispatch({ type: 'USER_LANGUAGE', language: language });
+      return;
+    }
+
+    firestore.doc(`users/${authId}`).get().then((doc: any) => { //get user
+      firestore.doc(`users/${authId}`).update({ language: language });//edit
+      dispatch({ type: 'USER_LANGUAGE', language: language });
+    }).catch((error: Error) => {
+      dispatch({ type: 'PRODUCT_ERROR', error });
+    })
   }
 }

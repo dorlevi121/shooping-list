@@ -7,7 +7,8 @@ import {
   signUpErrorActionType,
   signUpSuccessActionType,
   isLoggedInActionType,
-  headerTitleActionType
+  headerTitleActionType,
+  userLanguageActionType
 } from "./auth.types";
 
 type allAuthActionTypes =
@@ -17,7 +18,8 @@ type allAuthActionTypes =
   | signUpErrorActionType
   | signUpSuccessActionType
   | isLoggedInActionType
-  | headerTitleActionType;
+  | headerTitleActionType
+  | userLanguageActionType;
 let i = 0;
 export const authReducer = (
   state = initialAuthState,
@@ -62,7 +64,7 @@ export const authReducer = (
 
     case AuthActionsEnum.IS_LOGGED_IN:
       console.log("IS_LOGGED_IN");
-      const ans = !state.isLoggedIn      
+      const ans = !state.isLoggedIn;
       return {
         ...state,
         isLoggedIn: ans
@@ -72,6 +74,14 @@ export const authReducer = (
       return {
         ...state,
         header: { title: action.title, user: action.user }
+      };
+
+    case AuthActionsEnum.USER_LANGUAGE:
+      console.log(action.language);
+      
+      return {
+        ...state,
+        userLanguage: action.language
       };
   }
 

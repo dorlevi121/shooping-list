@@ -4,11 +4,23 @@
   text-align: center;
   color: $text-color;
   padding: 20px 0 10px 0;
-  background:$background-header-color;
+  background: $background-header-color;
 
-  & .UserName {
-    font-size: 1.3rem;
-    letter-spacing: 1px;
+  & .FirstText {
+    & .Language {
+      text-align: right;
+      margin-right: 2%;
+      color: $text-color;
+      & span {
+        cursor: pointer;
+        }
+      }
+
+    & h3 {
+      font-size: 1.3rem;
+      letter-spacing: 1px;
+      margin-top: 0;
+    }
   }
 
   & .Title {

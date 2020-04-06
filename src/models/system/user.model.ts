@@ -2,5 +2,6 @@ export type User = {
     email: string,
     password: string,
     firstName: string,
-    lastName: string
+    lastName: string,
+    language: 'hebrew' | 'english'
 }

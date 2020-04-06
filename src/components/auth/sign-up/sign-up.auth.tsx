@@ -32,7 +32,8 @@ class SignUp extends Component<Props> {
       email: "",
       password: "",
       firstName: "",
-      lastName: ""
+      lastName: "",
+      language: "hebrew"
     },
     loading: false
   };

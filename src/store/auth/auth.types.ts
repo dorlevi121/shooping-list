@@ -1,7 +1,8 @@
 export interface AuthState {
     authError: string,
     isLoggedIn: boolean,
-    header: {title: string, user?: string}
+    header: {title: string, user?: string},
+    userLanguage: 'hebrew'|'english'
 }
 
 export enum AuthActionsEnum {
@@ -11,7 +12,8 @@ export enum AuthActionsEnum {
     SIGNUP_ERROR = "SIGNUP_ERROR",
     SIGNOUT_SUCCESS = "SIGNOUT_SUCCESS",
     IS_LOGGED_IN = "IS_LOGGED_IN",
-    HEADER_TITLE = "HEADER_TITLE"
+    HEADER_TITLE = "HEADER_TITLE",
+    USER_LANGUAGE = "USER_LANGUAGE"
 }
 
 export interface AuthActionPattern {
@@ -48,4 +50,9 @@ export interface headerTitleActionType extends AuthActionPattern {
     type: AuthActionsEnum.HEADER_TITLE,
     title: string,
     user?: string
+}
+
+export interface userLanguageActionType extends AuthActionPattern {
+    type: AuthActionsEnum.USER_LANGUAGE,
+    language: 'hebrew'|'english'
 }

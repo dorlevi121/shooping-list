@@ -80,6 +80,22 @@
         list-style-type: none;
         max-height: 45vh;
         clear: both;
+        &::-webkit-scrollbar {
+          width: 0.6em;
+          height: 0.5em;
+          background-color: rgba(255, 255, 255, 0.4);
+          border-radius: 10px;
+        }
+      
+        &::-webkit-scrollbar-thumb {
+          background-color: rgba($color: $text-color, $alpha: .8);
+          border-radius: 10px;
+      
+          &:hover {
+            background-color: rgba($color: $text-color, $alpha: 1);
+          }
+        }
+
 
         & .Item {
           height: auto;

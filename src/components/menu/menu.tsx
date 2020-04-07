@@ -1,6 +1,6 @@
 import menuStyle from "./menu.module.scss";
 import React, { Component } from "react";
-import { signOut, signUp } from "../../store/auth/auth.actions";
+import { signOut } from "../../store/auth/auth.actions";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { userLanguage } from "../../store/auth/auth.selectors";
@@ -32,7 +32,7 @@ class Menu extends Component<Props> {
 
   shouldComponentUpdate(nextProps: Props, nextState: OwnState) {
     if (nextProps.isLoogedIn) {
-      if (this.props.language !== nextProps.language) {
+      if (this.props.language !== nextProps.language || this.sideBarStyle === null) {
         this.sideBarStyle = {
           transform:
             nextProps.language === 1 ? "translateX(100%)" : "translateX(-100%)",
@@ -43,9 +43,9 @@ class Menu extends Component<Props> {
     return false;
   }
 
-  sideBarStyle: any = {};
+  sideBarStyle: any = null;
 
-  openMenu = (e: any) => {
+  openMenu = (e: any) => {    
     if (this.props.language === 1) {
       this.sideBarStyle = {
         transform: !this.state.open ? "translateX(0)" : "translateX(100%)",

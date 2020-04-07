@@ -13,8 +13,15 @@ import ProductConponent from "./components/product/product.main";
 import { addNewListToHistory } from "../../store/history-list/history.actions";
 import { List } from "../../models/system/list.model";
 import Alert from "../shared/alert/alert";
-import { myShoppingListHeader } from "../../assets/language/textConfig";
+import * as text from "../../assets/language/textConfig";
+
 import { userLanguage } from "../../store/auth/auth.selectors";
+import {
+  Ingredient,
+  IngredientType,
+} from "../../models/system/ingredient.modal";
+import { addIngredient } from "../../store/ingredients/ingredients.action";
+import { allIngredients } from "../../store/ingredients/ingredients.selectors";
 
 const initialAlert = { show: false, type: "", text: "" };
 
@@ -32,7 +39,8 @@ interface StateProps {
   allProducts: Product[];
   profile: any;
   historyList: List[];
-  language: number
+  language: number;
+  ingredients: { [title: string]: Ingredient };
 }
 
 interface DispatchProps {
@@ -40,6 +48,7 @@ interface DispatchProps {
   changePeoduct: typeof changeProduct;
   addListToHistoryList: typeof addNewListToHistory;
   headerDetails: any;
+  addNewIngredient: typeof addIngredient;
 }
 
 type Props = StateProps & DispatchProps;
@@ -50,14 +59,14 @@ class Main extends Component<Props> {
     authUser: null,
     loading: false,
     modal: false,
-    alert: initialAlert
+    alert: initialAlert,
   };
 
   shouldComponentUpdate(nextProps: Props, nextState: OwnState) {
     if (nextProps.isLoogedIn) {
-      const str = myShoppingListHeader[nextProps.language]
+      const str = text.myShoppingListHeader[nextProps.language];
       nextProps.headerDetails(
-      str,
+        str,
         nextProps.profile.firstName + " " + nextProps.profile.lastName
       );
     }
@@ -65,7 +74,7 @@ class Main extends Component<Props> {
   }
   updateInputValue = (e: any) => {
     this.setState({
-      newProduct: e.target.value
+      newProduct: e.target.value,
     });
   };
 
@@ -87,7 +96,7 @@ class Main extends Component<Props> {
         0,
         this.state.newProduct.length - numb.length
       ),
-      id: uniqueId()
+      id: uniqueId(),
     };
     const products = this.props.allProducts;
     products.unshift(newProduct);
@@ -115,7 +124,7 @@ class Main extends Component<Props> {
       (p: Product) => p.check
     );
     if (checkedProducts.length < 1) {
-      this.showAlert("error", "לא נבחרו פריטים" )
+      this.showAlert("error", text.noItemsSelected[this.props.language]);
       return;
     }
     this.setState({ modal: !this.state.modal });
@@ -127,7 +136,7 @@ class Main extends Component<Props> {
     name: string;
   }) => {
     if (form.price < 1 || form.supermarket.length < 2 || form.name.length < 2) {
-      this.showAlert("error", "שגיאה במילוי הטופס" )
+      this.showAlert("error", text.fillingOutForm[this.props.language]);
       return;
     }
     const checkedProducts = this.props.allProducts.filter(
@@ -143,14 +152,14 @@ class Main extends Component<Props> {
       date: new Date(),
       supermarket: form.supermarket,
       price: form.price,
-      products: checkedProducts
+      products: checkedProducts,
     };
 
     historyList.unshift(newList);
     this.props.addListToHistoryList(cloneDeep(historyList));
     this.props.changePeoduct(cloneDeep(unCheckedProducts));
-    this.setState({modal: false})
-    this.showAlert("success", "ההזמנה בוצעה בהצלחה")
+    this.setState({ modal: false });
+    this.showAlert("success", text.orderSuccessfulAlert[this.props.language]);
   };
 
   showAlert = (type: string, text: string) => {
@@ -183,12 +192,12 @@ class Main extends Component<Props> {
                 <input
                   type="text"
                   maxLength={20}
-                  placeholder={this.props.language === 1? "הוסף מוצר חדש..." : "Add new product"}
+                  placeholder={text.placeholderAddProduct[this.props.language]}
                   value={this.state.newProduct}
                   onChange={this.updateInputValue}
                 />
                 <div onClick={this.addNewProduct}>
-                  <Button title="הוסף" />
+                  <Button title={text.addButton[this.props.language]} />
                 </div>
               </div>
 
@@ -221,7 +230,7 @@ class Main extends Component<Props> {
                 </ul>
               </div>
               <div onClick={this.openModal} className={mainStyle.Order}>
-                <Button title="הזמן" />
+                <Button title={text.orderButton[this.props.language]} />
               </div>
             </div>
           </React.Fragment>
@@ -237,7 +246,8 @@ const mapStateToProps = (state: any) => ({
   isLoogedIn: state.auth.isLoggedIn,
   allProducts: state.list.allProducts,
   historyList: state.historyList.historyList,
-  language: userLanguage(state)
+  language: userLanguage(state),
+  ingredients: allIngredients(state),
 });
 
 const mapsDispatchToProps = (dispatch: any) => ({
@@ -245,7 +255,9 @@ const mapsDispatchToProps = (dispatch: any) => ({
   changePeoduct: (products: Product[]) => dispatch(changeProduct(products)),
   addListToHistoryList: (lists: any) => dispatch(addNewListToHistory(lists)),
   headerDetails: (title: string, user: string) =>
-    dispatch({ type: "HEADER_TITLE", title: title, user: user })
+    dispatch({ type: "HEADER_TITLE", title: title, user: user }),
+  addNewIngredient: (Ingredient: Ingredient) =>
+    dispatch(addIngredient(Ingredient)),
 });
 
 export default compose<any>(

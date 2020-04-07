@@ -8,6 +8,7 @@ import Header from "./components/shared/header/header";
 import { userLanguage } from "./store/auth/auth.selectors";
 import { connect } from "react-redux";
 import { compose } from "redux";
+import { Offline, Online } from "react-detect-offline";
 
 interface StateProps {
   language: number;
@@ -15,7 +16,8 @@ interface StateProps {
 const App: React.FC<StateProps> = (props) => {
   return (
     <BrowserRouter>
-      <div
+    <Online>
+    <div
         className={appStyle.App}
         style={{ direction: props.language === 1 ? "rtl" : "ltr" }}
       >
@@ -24,6 +26,12 @@ const App: React.FC<StateProps> = (props) => {
         <Menu />
         <Routing />
       </div>
+    </Online>
+
+    <Offline>
+      <p>You are offline</p>
+    </Offline>
+
     </BrowserRouter>
   );
 };

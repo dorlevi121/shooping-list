@@ -7,6 +7,15 @@ import { connect } from "react-redux";
 import { signUp } from "../../../store/auth/auth.actions";
 import { Redirect, Link } from "react-router-dom";
 import Loading from "../../shared/loading/loading";
+import { userLanguage } from "../../../store/auth/auth.selectors";
+import {
+  signUpHeader,
+  signInPassword,
+  signInEmail,
+  signUpFirstName,
+  signUpLastName,
+  signInHeader,
+} from "../../../assets/language/textConfig";
 
 interface OwnState {
   form: User;
@@ -17,6 +26,7 @@ interface StateProps {
   auth: any;
   authError: string | null;
   isLoogedIn: boolean;
+  language: number;
 }
 
 interface DispatchProps {
@@ -33,13 +43,13 @@ class SignUp extends Component<Props> {
       password: "",
       firstName: "",
       lastName: "",
-      language: "hebrew"
+      language: "hebrew",
     },
-    loading: false
+    loading: false,
   };
 
   shouldComponentUpdate(nextProps: Props, nextState: OwnState) {
-    this.props.headerDetails("התחבר", "")    
+    this.props.headerDetails(signUpHeader[nextProps.language], "");
     if (this.props.authError !== nextProps.authError) {
       this.setState({ loading: false });
       return true;
@@ -84,7 +94,7 @@ class SignUp extends Component<Props> {
                 required
               />
               <label htmlFor="firstName">
-                <span>שם פרטי</span>
+                <span>{signUpFirstName[this.props.language]}</span>
               </label>
             </div>
 
@@ -100,7 +110,7 @@ class SignUp extends Component<Props> {
                 required
               />
               <label htmlFor="lastName">
-                <span>שם משפחה</span>
+                <span>{signUpLastName[this.props.language]}</span>
               </label>
             </div>
 
@@ -116,7 +126,7 @@ class SignUp extends Component<Props> {
                 required
               />
               <label htmlFor="email">
-                <span>אימייל</span>
+                <span>{signInEmail[this.props.language]}</span>
               </label>
             </div>
 
@@ -132,15 +142,15 @@ class SignUp extends Component<Props> {
                 required
               />
               <label htmlFor="password">
-                <span>סיסמא</span>
+                <span>{signInPassword[this.props.language]}</span>
               </label>
             </div>
 
             <div className={formStyle.Button}>
-              <Button title="הרשמה" />
+              <Button title={signUpHeader[this.props.language]} />
             </div>
             <div className={formStyle.ChangePage}>
-              <Link to="/signin">התחבר</Link>
+              <Link to="/signin">{signInHeader[this.props.language]}</Link>
             </div>
             {this.props.authError && <p>{this.props.authError}</p>}
           </form>
@@ -153,13 +163,14 @@ class SignUp extends Component<Props> {
 const mapStateToProps = (state: any) => ({
   auth: state.firebase.auth,
   authError: state.auth.authError,
-  isLoogedIn: state.auth.isLoggedIn
+  isLoogedIn: state.auth.isLoggedIn,
+  language: userLanguage(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   signUp: (user: any) => dispatch(signUp(user)),
   headerDetails: (title: string, user: string) =>
-    dispatch({ type: "HEADER_TITLE", title: title, user: user })
+    dispatch({ type: "HEADER_TITLE", title: title, user: user }),
 });
 
 export default compose<any>(

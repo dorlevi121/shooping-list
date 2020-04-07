@@ -4,6 +4,7 @@ import { compose } from "redux";
 import { initialProductsListFromServer } from "../../store/list/list.actions";
 import { initialShoppingHistoryList } from "../../store/history-list/history.actions";
 import { initialLanguage } from "../../store/auth/auth.actions";
+import { initialIngredients } from "../../store/ingredients/ingredients.action";
 interface StateProps {
   auth: any;
   isLoogedIn: boolean;
@@ -14,6 +15,7 @@ interface DispatchProps {
   initialProducts: typeof initialProductsListFromServer;
   initialShoppingHistoryList: typeof initialShoppingHistoryList;
   initialLanguage: typeof initialLanguage;
+  initialIngredients: typeof initialIngredients;
 }
 
 type Props = StateProps & DispatchProps;
@@ -24,6 +26,7 @@ class Listener extends Component<Props> {
       this.props.changeIsLoogedIn();
       this.props.initialLanguage();
       this.props.initialProducts();
+      this.props.initialIngredients()
       this.props.initialShoppingHistoryList();
     }
     return true;
@@ -43,7 +46,8 @@ const mapDispatchToProps = (dispatch: any) => ({
   changeIsLoogedIn: () => dispatch({ type: "IS_LOGGED_IN" }),
   initialProducts: () => dispatch(initialProductsListFromServer()),
   initialShoppingHistoryList: () => dispatch(initialShoppingHistoryList()),
-  initialLanguage: () => dispatch(initialLanguage())
+  initialLanguage: () => dispatch(initialLanguage()),
+  initialIngredients: () => dispatch(initialIngredients())
 });
 
 export default compose<any>(

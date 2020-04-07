@@ -7,7 +7,12 @@ import { signIn } from "../../../store/auth/auth.actions";
 import { Redirect, Link } from "react-router-dom";
 import Loading from "../../shared/loading/loading";
 import { userLanguage } from "../../../store/auth/auth.selectors";
-import { guestSignInHeader } from "../../../assets/language/textConfig";
+import {
+  signInHeader,
+  signInEmail,
+  signInPassword,
+  signUpHeader,
+} from "../../../assets/language/textConfig";
 
 interface OwnState {
   form: {
@@ -21,12 +26,12 @@ interface StateProps {
   authError: string;
   auth: any;
   isLoogedIn: boolean;
-  userLanguage: number
+  language: number;
 }
 
 interface DispatchProps {
   signIn: typeof signIn;
-  headerDetails: any
+  headerDetails: any;
 }
 
 type Props = DispatchProps & StateProps;
@@ -35,13 +40,13 @@ class SignIn extends Component<Props> {
   state: OwnState = {
     form: {
       email: "",
-      password: ""
+      password: "",
     },
-    loading: false
+    loading: false,
   };
 
-  shouldComponentUpdate(nextProps: Props, nextState: OwnState) {            
-    this.props.headerDetails(guestSignInHeader[nextProps.userLanguage], "")    
+  shouldComponentUpdate(nextProps: Props, nextState: OwnState) {
+    this.props.headerDetails(signInHeader[nextProps.language], "");
     if (this.props.authError !== nextProps.authError && !nextProps.isLoogedIn) {
       this.setState({ loading: false });
       return true;
@@ -83,7 +88,7 @@ class SignIn extends Component<Props> {
                 required
               />
               <label htmlFor="email">
-                <span>אימייל</span>
+                <span>{signInEmail[this.props.language]}</span>
               </label>
             </div>
 
@@ -99,16 +104,16 @@ class SignIn extends Component<Props> {
                 required
               />
               <label htmlFor="password">
-                <span>סיסמא</span>
+                <span>{signInPassword[this.props.language]}</span>
               </label>
             </div>
 
             <div className={formStyle.Button}>
-              <Button title="התחברות" />
+              <Button title={signInHeader[this.props.language]} />
             </div>
 
             <div className={formStyle.ChangePage}>
-              <Link to="/signup">הרשם</Link>
+              <Link to="/signup">{signUpHeader[this.props.language]}</Link>
             </div>
             {this.props.authError && (
               <p>
@@ -126,13 +131,13 @@ const mapStateToProps = (state: any) => ({
   authError: state.auth.authError,
   auth: state.firebase.auth,
   isLoogedIn: state.auth.isLoggedIn,
-  userLanguage: userLanguage(state)
+  language: userLanguage(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   signIn: (credential: any) => dispatch(signIn(credential)),
   headerDetails: (title: string, user: string) =>
-    dispatch({ type: "HEADER_TITLE", title: title, user: user })
+    dispatch({ type: "HEADER_TITLE", title: title, user: user }),
 });
 
 export default compose<any>(

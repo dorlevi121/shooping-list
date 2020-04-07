@@ -25,3 +25,7 @@ export const fillingOutForm = ['filling out form', "שגיאה במילוי הט
 export const noItemsSelected = ['No items selected', "לא נבחרו פריטים"]
 
 // History //
+
+
+// Auto Complete //
+export const noOptions = ['No matching products found', "לא נמצאו מוצרים תואמים"]

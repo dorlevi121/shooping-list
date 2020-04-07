@@ -1,0 +1,89 @@
+@import "../../../../models/SASS/main.scss";
+
+.AddProduct {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4%;
+
+  @include respond(phone) {
+    margin-top: 8%;
+  }
+
+  @include respond(tab-900) {
+    margin-top: 5%;
+  }
+
+  & input {
+    width: 70%;
+    border: none;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: $text-size;
+    padding: 10px;
+
+    @include respond(phone) {
+      width: 60%;
+    }
+
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.38);
+      font-size: $text-size;
+      @include respond(phone) {
+        font-size: 1rem;
+      }
+    }
+
+    &:focus {
+      outline: none;
+      -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+      -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+      box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+
+      &::placeholder {
+        visibility: hidden;
+      }
+    }
+  }
+  & div {
+    width: 20%;
+    @include respond(phone) {
+      width: 25%;
+    }
+    & button {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
+
+.Options {
+  position: absolute;
+  width: 20%;
+  & .List {
+    list-style-type: none;
+
+    & p {
+      background-color: $text-color;
+      color: red;
+      margin-left: 5%;
+      padding: 2%;
+      cursor: pointer;
+      margin-top: 1%;
+
+      &:not(:first-child) {
+        margin-top: -4%;
+      }
+
+      &:hover {
+        background-color: rgba(
+          $color: $background-product-checked-color,
+          $alpha: 0.5
+        );
+      }
+    }
+  }
+
+  & .NoOptions {
+    width: 100%;
+    margin: auto;
+  }
+}

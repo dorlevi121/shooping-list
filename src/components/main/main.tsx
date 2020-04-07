@@ -16,17 +16,14 @@ import Alert from "../shared/alert/alert";
 import * as text from "../../assets/language/textConfig";
 
 import { userLanguage } from "../../store/auth/auth.selectors";
-import {
-  Ingredient,
-  IngredientType,
-} from "../../models/system/ingredient.modal";
+import { Ingredient } from "../../models/system/ingredient.modal";
 import { addIngredient } from "../../store/ingredients/ingredients.action";
 import { allIngredients } from "../../store/ingredients/ingredients.selectors";
+import AddProduct from "./components/add-product/add-product.main";
 
 const initialAlert = { show: false, type: "", text: "" };
 
 interface OwnState {
-  newProduct: string;
   authUser: any;
   loading: boolean;
   modal: boolean;
@@ -55,7 +52,6 @@ type Props = StateProps & DispatchProps;
 
 class Main extends Component<Props> {
   state: OwnState = {
-    newProduct: "",
     authUser: null,
     loading: false,
     modal: false,
@@ -72,15 +68,11 @@ class Main extends Component<Props> {
     }
     return true;
   }
-  updateInputValue = (e: any) => {
-    this.setState({
-      newProduct: e.target.value,
-    });
-  };
 
-  addNewProduct = () => {
-    if (this.state.newProduct.length < 2) return;
-    const findQuantity: any = this.state.newProduct.match(/\d/g);
+  addNewProduct = (productTitle: string) => {
+    if (productTitle.length < 2) return;
+    const ingredient = this.props.ingredients[productTitle];
+    const findQuantity: any = productTitle.match(/\d/g);
     let numb = "",
       quantity: number;
 
@@ -92,10 +84,7 @@ class Main extends Component<Props> {
     const newProduct: Product = {
       check: false,
       quantity: quantity,
-      title: this.state.newProduct.slice(
-        0,
-        this.state.newProduct.length - numb.length
-      ),
+      title: productTitle.slice(0, productTitle.length - numb.length),
       id: uniqueId(),
     };
     const products = this.props.allProducts;
@@ -186,19 +175,13 @@ class Main extends Component<Props> {
 
         {!this.state.loading && (
           <React.Fragment>
-            {/* <Menu /> */}
             <div className={mainStyle.Content}>
               <div className={mainStyle.AddProduct}>
-                <input
-                  type="text"
-                  maxLength={20}
-                  placeholder={text.placeholderAddProduct[this.props.language]}
-                  value={this.state.newProduct}
-                  onChange={this.updateInputValue}
+                <AddProduct
+                  productsTitle={Object.keys(this.props.ingredients)}
+                  language={this.props.language}
+                  addNewProduct={this.addNewProduct}
                 />
-                <div onClick={this.addNewProduct}>
-                  <Button title={text.addButton[this.props.language]} />
-                </div>
               </div>
 
               <div className={mainStyle.Products}>

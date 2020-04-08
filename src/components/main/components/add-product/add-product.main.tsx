@@ -32,7 +32,6 @@ class AddProduct extends Component<OwnProps> {
       (optionName) =>
         optionName.toLowerCase().indexOf(userInput.toLowerCase()) > -1
     );
-    console.log(filteredOptions);
 
     this.setState({
       activeOption: 0,

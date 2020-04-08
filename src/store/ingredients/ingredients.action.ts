@@ -18,8 +18,11 @@ export const addIngredient = (newIngredient: Ingredient) => {
     return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
         const firestore = getFirestore();
         const ingKey = newIngredient.titleHeb
-        firestore.collection(`ingredients`).doc('ingredients').update({ [ingKey]: newIngredient }).catch((error: Error) => {
-            dispatch({ type: 'INGREDIENTS_ERROR', error: error });
+        firestore.collection(`ingredients`).doc('ingredients').update({ [ingKey]: newIngredient }).then(() => {
+            dispatch({ type: 'ADD_INGREDIENT', ingredient: newIngredient })
         })
+            .catch((error: Error) => {
+                dispatch({ type: 'INGREDIENTS_ERROR', error: error });
+            })
     }
 }

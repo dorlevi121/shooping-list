@@ -14,12 +14,12 @@ import { addNewListToHistory } from "../../store/history-list/history.actions";
 import { List } from "../../models/system/list.model";
 import Alert from "../shared/alert/alert";
 import * as text from "../../assets/language/textConfig";
-
 import { userLanguage } from "../../store/auth/auth.selectors";
 import { Ingredient } from "../../models/system/ingredient.modal";
 import { addIngredient } from "../../store/ingredients/ingredients.action";
 import { allIngredients } from "../../store/ingredients/ingredients.selectors";
 import AddProduct from "./components/add-product/add-product.main";
+import NewIngredient from "./components/add-new-ingredient/add-new-ingredient.main";
 
 const initialAlert = { show: false, type: "", text: "" };
 
@@ -28,6 +28,7 @@ interface OwnState {
   loading: boolean;
   modal: boolean;
   alert: { show: boolean; type: string; text: string };
+  addIngredientModal: boolean;
 }
 
 interface StateProps {
@@ -56,6 +57,7 @@ class Main extends Component<Props> {
     loading: false,
     modal: false,
     alert: initialAlert,
+    addIngredientModal: false,
   };
 
   shouldComponentUpdate(nextProps: Props, nextState: OwnState) {
@@ -71,7 +73,7 @@ class Main extends Component<Props> {
 
   addNewProduct = (productTitle: string) => {
     if (productTitle.length < 2) return;
-    const ingredient = this.props.ingredients[productTitle];
+
     const findQuantity: any = productTitle.match(/\d/g);
     let numb = "",
       quantity: number;
@@ -81,13 +83,33 @@ class Main extends Component<Props> {
       quantity = parseInt(numb);
     } else quantity = 1;
 
+    let title = productTitle.slice(0, productTitle.length - numb.length);
+    title = title.trim();
+
+    const ingredient = this.props.ingredients[title];
+    if (ingredient === undefined) {
+      this.setState({
+        addIngredientModal: true,
+      });
+      return;
+    }
+
+    const products = this.props.allProducts;
+    const check = products.find((p: Product) => p.title === title);
+    if (check !== undefined) {
+      this.showAlert("error", text.productExist[this.props.language]);
+      this.setState({ newProduct: "" });
+      return;
+    }
+
     const newProduct: Product = {
       check: false,
       quantity: quantity,
-      title: productTitle.slice(0, productTitle.length - numb.length),
+      title: title,
       id: uniqueId(),
+      ingredient: ingredient,
     };
-    const products = this.props.allProducts;
+
     products.unshift(newProduct);
     this.props.addNewProduct(cloneDeep(products));
     this.setState({ newProduct: "" });
@@ -159,6 +181,14 @@ class Main extends Component<Props> {
     }, 1500);
   };
 
+  addNewIngredient = (ing: Ingredient) => {
+    if(ing.titleHeb === "") return;
+    this.props.addNewIngredient(ing);
+    this.showAlert("success", text.addedSuccessfully[this.props.language]);
+    this.setState({ addIngredientModal: false });
+  };
+
+
   render() {
     if (!this.props.isLoogedIn) return <Redirect to="/signin" />;
 
@@ -166,6 +196,18 @@ class Main extends Component<Props> {
       <div className={mainStyle.Main}>
         {this.state.modal && (
           <Order onOrder={this.onOrder} openModal={this.openModal} />
+        )}
+
+        {this.state.addIngredientModal && (
+          <NewIngredient
+            addToDB={this.addNewIngredient}
+            language={this.props.language}
+            openModal={() =>
+              this.setState({
+                addIngredientModal: !this.state.addIngredientModal,
+              })
+            }
+          />
         )}
 
         {this.state.loading && <Loading />}
@@ -195,6 +237,7 @@ class Main extends Component<Props> {
                             i={i}
                             onDelete={this.deleteProduct}
                             onCheck={this.checkedProduct}
+                            language={this.props.language}
                           />
                         </li>
                       );
@@ -206,6 +249,7 @@ class Main extends Component<Props> {
                           i={i}
                           onDelete={this.deleteProduct}
                           onCheck={this.checkedProduct}
+                          language={this.props.language}
                         />
                       </li>
                     );

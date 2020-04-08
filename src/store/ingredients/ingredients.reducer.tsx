@@ -5,6 +5,8 @@ import {
   initialIngredientsActionType,
   ingredientsErrorActionType,
 } from "./ingredients.types";
+import deepClone from 'lodash';
+import { Ingredient } from "../../models/system/ingredient.modal";
 
 type AllActionType =
   | addIngredientActionType
@@ -16,8 +18,9 @@ export const ingredientsReducer = (
 ) => {
   switch (action.type) {
     case IngredientsActionsEnum.ADD_INGREDIENT:
-      console.log(action.ingredient);
-      return { ...state };
+      const allIng: any = deepClone(state.ingredients);
+      allIng[action.ingredient.titleHeb] = action.ingredient;
+      return { ...state, ingredients: deepClone(allIng) };
 
     case IngredientsActionsEnum.INITIAL_INGREDIENTS:
       console.log(action.ingredients);

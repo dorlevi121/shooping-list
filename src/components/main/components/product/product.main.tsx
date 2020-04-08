@@ -8,9 +8,10 @@ interface OwnProps {
   i: number;
   onDelete: (i: number) => void;
   onCheck: (i: number) => void;
+  language: number;
 }
 
-const ProductConponent: React.FC<OwnProps> = props => {
+const ProductConponent: React.FC<OwnProps> = (props) => {
   return (
     <React.Fragment>
       <p
@@ -19,7 +20,10 @@ const ProductConponent: React.FC<OwnProps> = props => {
       >
         X
       </p>
-      {props.product.title} - {props.product.quantity}
+      {props.language === 0
+        ? props.product.ingredient.titleEng
+        : props.product.ingredient.titleHeb}{" "}
+      - {props.product.quantity}
       <p
         className={mainStyle.CheckChecked}
         onClick={() => props.onCheck(props.i)}

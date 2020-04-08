@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Modal from "../../../shared/modal/modal";
 import orderStyle from "./order.module.scss";
-import Alert from "../../../shared/alert/alert";
 
 interface OwnState {
   form: { supermarket: string; price: number | string; name: string };

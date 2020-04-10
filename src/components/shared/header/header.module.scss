@@ -2,7 +2,7 @@
 
 .Header {
   text-align: center;
-  color: $text-color;
+  color: $text-color-light;
   padding: 20px 0 10px 0;
   background: $background-header-color;
 
@@ -10,7 +10,7 @@
     & .Language {
       text-align: right;
       margin-right: 2%;
-      color: $text-color;
+      color: $text-color-light;
       & span {
         cursor: pointer;
         }

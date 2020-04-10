@@ -29,6 +29,7 @@ interface OwnState {
   modal: boolean;
   alert: { show: boolean; type: string; text: string };
   addIngredientModal: boolean;
+  newIngredient: string;
 }
 
 interface StateProps {
@@ -58,6 +59,7 @@ class Main extends Component<Props> {
     modal: false,
     alert: initialAlert,
     addIngredientModal: false,
+    newIngredient: ''
   };
 
   shouldComponentUpdate(nextProps: Props, nextState: OwnState) {
@@ -90,6 +92,7 @@ class Main extends Component<Props> {
     if (ingredient === undefined) {
       this.setState({
         addIngredientModal: true,
+        newIngredient: productTitle
       });
       return;
     }
@@ -182,6 +185,8 @@ class Main extends Component<Props> {
   };
 
   addNewIngredient = (ing: Ingredient) => {
+    console.log(this.props.ingredients);
+    
     if(ing.titleHeb === "") return;
     this.props.addNewIngredient(ing);
     this.showAlert("success", text.addedSuccessfully[this.props.language]);
@@ -200,6 +205,7 @@ class Main extends Component<Props> {
 
         {this.state.addIngredientModal && (
           <NewIngredient
+            ingredientTitle={this.state.newIngredient}
             addToDB={this.addNewIngredient}
             language={this.props.language}
             openModal={() =>
@@ -242,6 +248,7 @@ class Main extends Component<Props> {
                         </li>
                       );
                     }
+
                     return (
                       <li key={i} className={mainStyle.Item}>
                         <ProductConponent

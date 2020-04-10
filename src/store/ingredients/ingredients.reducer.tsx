@@ -5,7 +5,7 @@ import {
   initialIngredientsActionType,
   ingredientsErrorActionType,
 } from "./ingredients.types";
-import deepClone from 'lodash';
+import {cloneDeep} from "lodash";
 import { Ingredient } from "../../models/system/ingredient.modal";
 
 type AllActionType =
@@ -18,15 +18,15 @@ export const ingredientsReducer = (
 ) => {
   switch (action.type) {
     case IngredientsActionsEnum.ADD_INGREDIENT:
-      const allIng: any = deepClone(state.ingredients);
-      allIng[action.ingredient.titleHeb] = action.ingredient;
-      return { ...state, ingredients: deepClone(allIng) };
+      const allIng:  { [title: string]: Ingredient } = cloneDeep(state.ingredients);
+      allIng[action.ingredient.titleHeb] = cloneDeep(action.ingredient);
 
-    case IngredientsActionsEnum.INITIAL_INGREDIENTS:
-      console.log(action.ingredients);
+      return { ...state, ingredients: cloneDeep(allIng) };
+
+    case IngredientsActionsEnum.INITIAL_INGREDIENTS:      
       return {
         ...state,
-        ingredients: action.ingredients,
+        ingredients: cloneDeep(action.ingredients),
       };
 
     case IngredientsActionsEnum.INGREDIENTS_ERROR:

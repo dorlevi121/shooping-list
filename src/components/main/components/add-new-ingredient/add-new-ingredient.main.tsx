@@ -11,6 +11,7 @@ interface OwnProps {
   openModal: () => void;
   addToDB: (ingredient: Ingredient) => void;
   language: number;
+  ingredientTitle: string
 }
 
 export default class NewIngredient extends Component<OwnProps> {
@@ -46,7 +47,7 @@ export default class NewIngredient extends Component<OwnProps> {
                 type="text"
                 name="hebTitle"
                 onChange={this.handleChange}
-                value={this.state.ingredient.titleHeb}
+                value={this.state.ingredient.titleHeb === '' ? this.props.ingredientTitle : this.state.ingredient.titleHeb}
                 placeholder={text.hebrewTitle[this.props.language]}
                 required
               />

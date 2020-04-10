@@ -7,7 +7,33 @@ export const initialIngredients = () => {
 
         firestore.collection(`ingredients`).doc('ingredients').get().then((doc: any) => { //get Ingredient
             const ingredients = doc.data();
-            dispatch({ type: 'INITIAL_INGREDIENTS', ingredients: cloneDeep(ingredients) });
+            // const dicc: { [title: string]: Ingredient } = {}
+            // let dic: { [title: string]: Ingredient } =
+            //     Object.assign(Object.keys(ingredients).map((i: string) =>{
+            //         if( i !== "__proto__")
+            //         {dicc[i] = {
+            //             titleHeb: ingredients[i].titleHeb,
+            //             titleEng: ingredients[i].titleEng === undefined ? "" : ingredients[i].titleEng,
+            //             type: ingredients[i].type,
+            //             unit: ingredients[i].unit === undefined ? "" : ingredients[i].unit,
+            //             brands: ingredients[i].brands === undefined ? [] : cloneDeep(ingredients[i].brands),
+            //             icon: ingredients[i].icon === undefined ? "" : ingredients[i].icon
+            //         }}
+            //         return ({
+            //             [i]: {
+            //                 titleHeb: ingredients[i].titleHeb,
+            //                 titleEng: ingredients[i].titleEng === undefined ? "" : ingredients[i].titleEng,
+            //                 type: ingredients[i].type,
+            //                 unit: ingredients[i].unit === undefined ? "" : ingredients[i].unit,
+            //                 brands: ingredients[i].brands === undefined ? [] : cloneDeep(ingredients[i].brands),
+            //                 icon: ingredients[i].icon === undefined ? "" : ingredients[i].icon
+            //             }
+            //         })
+            //     }
+            //     ));
+            //     console.log( ingredients);
+
+            dispatch({ type: 'INITIAL_INGREDIENTS', ingredients: ingredients });
         }).catch((error: Error) => {
             dispatch({ type: 'INGREDIENTS_ERROR', error: error });
         })

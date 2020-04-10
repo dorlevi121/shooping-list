@@ -1,0 +1,16 @@
+@import "../../../../models/SASS/main.scss";
+
+.Product {
+height: 100%;
+  & .Delete {
+      width: 20%;
+      background-color: $button-color;
+  }
+
+  & .Text {
+      width: 80%;
+    
+  }
+  & .Checkmark {
+  }
+}

@@ -73,13 +73,8 @@ class AddProduct extends Component<OwnProps> {
             })}
           </div>
         );
-      } else {
-        optionList = (
-          <div className={AddProductStyle.NoOptions}>
-            <p>{text.noOptions[this.props.language]}</p>
-          </div>
-        );
       }
+        
     }
     return (
       <React.Fragment>

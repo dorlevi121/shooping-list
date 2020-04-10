@@ -15,10 +15,12 @@
 
   & input {
     width: 70%;
-    border: none;
     color: rgba(0, 0, 0, 0.87);
     font-size: $text-size;
     padding: 10px;
+    background: rgba(0, 0, 0, 0);
+    border: 1px solid $border-color;
+
 
     @include respond(phone) {
       width: 60%;
@@ -62,7 +64,7 @@
     list-style-type: none;
 
     & p {
-      background-color: $text-color;
+      background-color: $text-color-dark;
       color: red;
       margin-left: 5%;
       padding: 2%;

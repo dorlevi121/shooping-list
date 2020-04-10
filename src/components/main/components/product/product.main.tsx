@@ -13,24 +13,22 @@ interface OwnProps {
 
 const ProductConponent: React.FC<OwnProps> = (props) => {
   return (
-    <React.Fragment>
-      <p
-        className={mainStyle.DeleteChecked}
+    <div className={productStyle.Product}>
+      <span
+        className={productStyle.Delete}
         onClick={() => props.onDelete(props.i)}
       >
         X
-      </p>
-      {props.language === 0
-        ? props.product.ingredient.titleEng
-        : props.product.ingredient.titleHeb}{" "}
-      - {props.product.quantity}
-      <p
-        className={mainStyle.CheckChecked}
-        onClick={() => props.onCheck(props.i)}
-      >
-        ✔
-      </p>
-    </React.Fragment>
+      </span>
+
+      <span className={productStyle.Text} onClick={() => props.onCheck(props.i)}>
+        {props.language === 0
+          ? props.product.ingredient.titleEng
+          : props.product.ingredient.titleHeb}{" "}
+        - {props.product.quantity}
+        <span className={productStyle.Checkmark}>&#10004;</span>
+      </span>
+    </div>
   );
 };
 

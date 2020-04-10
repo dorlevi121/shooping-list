@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Modal from "../../../shared/modal/modal";
 import orderStyle from "../order/order.module.scss";
+import ingStyle from './add-new-ingredient.module.scss';
 import {
   Ingredient,
   IngredientType,
@@ -66,8 +67,8 @@ export default class NewIngredient extends Component<OwnProps> {
             </div>
 
             {/* Type */}
-            <div className={orderStyle.Input}>
-              <select id="types" onChange={this.handleChange}>
+            <div className={ingStyle.Select}>
+              <select id="types" onChange={this.handleChange} >
                 <option value="DEFAULT" disabled={false}>
                   {text.selectType[this.props.language]}
                 </option>

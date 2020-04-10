@@ -59,7 +59,7 @@ class Main extends Component<Props> {
     modal: false,
     alert: initialAlert,
     addIngredientModal: false,
-    newIngredient: ''
+    newIngredient: "",
   };
 
   shouldComponentUpdate(nextProps: Props, nextState: OwnState) {
@@ -92,7 +92,7 @@ class Main extends Component<Props> {
     if (ingredient === undefined) {
       this.setState({
         addIngredientModal: true,
-        newIngredient: productTitle
+        newIngredient: productTitle,
       });
       return;
     }
@@ -186,13 +186,12 @@ class Main extends Component<Props> {
 
   addNewIngredient = (ing: Ingredient) => {
     console.log(this.props.ingredients);
-    
-    if(ing.titleHeb === "") return;
+
+    if (ing.titleHeb === "") return;
     this.props.addNewIngredient(ing);
     this.showAlert("success", text.addedSuccessfully[this.props.language]);
     this.setState({ addIngredientModal: false });
   };
-
 
   render() {
     if (!this.props.isLoogedIn) return <Redirect to="/signin" />;
@@ -235,22 +234,8 @@ class Main extends Component<Props> {
               <div className={mainStyle.Products}>
                 <ul>
                   {this.props.allProducts.map((product: Product, i: number) => {
-                    if (product.check) {
-                      return (
-                        <li key={i} className={mainStyle.CheckedItem}>
-                          <ProductConponent
-                            product={product}
-                            i={i}
-                            onDelete={this.deleteProduct}
-                            onCheck={this.checkedProduct}
-                            language={this.props.language}
-                          />
-                        </li>
-                      );
-                    }
-
                     return (
-                      <li key={i} className={mainStyle.Item}>
+                      <li key={i} className={mainStyle.CheckedItem}>
                         <ProductConponent
                           product={product}
                           i={i}

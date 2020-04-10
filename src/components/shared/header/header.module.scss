@@ -5,7 +5,7 @@
   color: $text-color-light;
   padding: 20px 0 10px 0;
   background: $background-header-color;
-
+  background-image: linear-gradient(rgba(0, 73, 80, 0.856), $background-header-color);
   & .FirstText {
     & .Language {
       text-align: right;

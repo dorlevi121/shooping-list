@@ -23,8 +23,11 @@
 
     & .Products {
       margin-top: 5%;
+      box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+
       & ul {
-        overflow: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
         padding: 0;
         list-style-type: none;
         max-height: 45vh;
@@ -47,67 +50,18 @@
         }
 
         & li {
-          color: $text-color-dark;
-          padding: .75em;
           cursor: pointer;
-          margin: .5em 0;
-          border: 1px solid $border-color;
-          position: relative;
+          border: 1px solid $text-color-dark;
           transition: background-color .2s;
-          
+          width: 98%;
+
+          &:not(:first-of-type){
+            margin: .5em 0;
+          }
           &:hover {
             background-color: $background-product-color-hover;
           }
         }
-
-
-        // & .Item {
-        //   height: auto;
-        //   font-size: $text-size;
-        //   padding: 10px;
-        //   text-align: center;
-        //   color: $text-color;
-
-        //   & .DeleteChecked {
-        //     cursor: pointer;
-        //     float: left;
-        //     margin: -5px;
-        //     padding: 5px 9px;
-        //   }
-
-        //   & .CheckChecked {
-        //     cursor: pointer;
-        //     float: right;
-        //     margin: -5px;
-        //     padding: 4px 8px;
-        //   }
-        // }
-
-        // & .CheckedItem {
-        //   height: auto;
-        //   font-size: $text-size;
-        //   padding: 10px;
-        //   text-align: center;
-        //   background: $background-product-checked-color;
-        //   color: rgba(0, 0, 0, 0.38);
-        //   text-decoration: line-through;
-
-        //   & .DeleteChecked {
-        //     cursor: pointer;
-        //     float: left;
-        //     margin: -5px;
-        //     padding: 5px 9px;
-        //     color: rgba(0, 0, 0, 0.38);
-        //   }
-
-        //   & .CheckChecked {
-        //     cursor: pointer;
-        //     float: right;
-        //     margin: -5px;
-        //     padding: 4px 8px;
-        //     color: rgba(0, 0, 0, 0.38);
-        //   }
-        // }
       }
     }
 

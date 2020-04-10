@@ -35,12 +35,11 @@ class AddProduct extends Component<OwnProps> {
 
     this.setState({
       activeOption: 0,
-      filteredOptions,
+      filteredOptions: filteredOptions.slice(0, 5),
       showOptions: true,
       userInput: e.currentTarget.value,
     });
   };
-
 
   onProductClick = (title: string) => {
     this.setState({ userInput: title, showOptions: false });
@@ -58,10 +57,6 @@ class AddProduct extends Component<OwnProps> {
         optionList = (
           <div className={AddProductStyle.List}>
             {this.state.filteredOptions.map((optionName, index) => {
-              let className;
-              if (index === this.state.activeOption) {
-                className = "option-active";
-              }
               return (
                 <p
                   onClick={() => this.onProductClick(optionName)}
@@ -74,7 +69,6 @@ class AddProduct extends Component<OwnProps> {
           </div>
         );
       }
-        
     }
     return (
       <React.Fragment>

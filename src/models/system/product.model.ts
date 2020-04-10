@@ -5,5 +5,6 @@ export type Product = {
     quantity: number,
     check: boolean,
     id: string,
-    ingredient: Ingredient
+    ingredient: Ingredient,
+    note?: string
 }

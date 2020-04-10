@@ -29,7 +29,7 @@ const App: React.FC<StateProps> = (props) => {
     </Online>
 
     <Offline>
-      <p>You are offline</p>
+      <p style={{color: "black"}}>You are offline</p>
     </Offline>
 
     </BrowserRouter>

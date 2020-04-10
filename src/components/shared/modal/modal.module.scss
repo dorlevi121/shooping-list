@@ -38,7 +38,7 @@
       justify-content: space-between;
       align-items: center;
       height: 20%;
-      background-color: $background-color;
+      background-color: $background-header-color;
 
       & h1 {
         display: inline;
@@ -58,10 +58,9 @@
         @media (max-width: 600px) {
           font-size: 2rem;
         }
-      }
-
-      & :hover {
-        color: $background-header-color;
+        &:hover {
+          color: $background-product-color-hover;
+        }
       }
     }
 
@@ -75,7 +74,7 @@
 
     & .Footer {
       height: 20%;
-      background-color: $background-color;
+      background-color: $background-header-color;
 
       & button {
         margin-right: 5%;

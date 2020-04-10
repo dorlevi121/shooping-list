@@ -1,16 +1,84 @@
 @import "../../../../models/SASS/main.scss";
 
 .Product {
-height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   & .Delete {
-      width: 20%;
-      background-color: $button-color;
+    padding: 3.5%;
+    background-color: $button-color;
+    color: $text-color-light;
+    font-size: $text-size;
   }
 
-  & .Text {
-      width: 80%;
-    
+  & .Title {
+    color: $text-color-dark;
+    width: 75%;
+    text-align: center;
   }
   & .Checkmark {
+    position: relative;
+    display: inline-block;
+    width: 10px;
+    height: 14px;
+    margin-left: 5%;
+    &::before {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      height: 50%;
+      width: 3px;
+      background-color: white;
+      border: 0.5px solid $text-color-dark;
+      content: "";
+      transform: translateX(11px) rotate(-45deg);
+      transform-origin: left bottom;
+    }
+    &::after {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 3px;
+      width: 100%;
+      background-color: white;
+      border: 0.5px solid $text-color-dark;
+      border-left: 0;
+      content: "";
+      transform: translateX(13px) translateY(-1px) rotate(-45deg);
+      transform-origin: left bottom;
+    }
+  }
+
+  & .CheckmarkCheck {
+    position: relative;
+    display: inline-block;
+    width: 10px;
+    height: 14px;
+    margin-left: 5%;
+    &::before {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      height: 50%;
+      width: 3px;
+      background-color: $text-color-dark;
+      border: 0.5px solid $text-color-dark;
+      content: "";
+      transform: translateX(11px) rotate(-45deg);
+      transform-origin: left bottom;
+    }
+    &::after {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 3px;
+      width: 100%;
+      background-color: $text-color-dark;
+      border: 0.5px solid $text-color-dark;
+      border-left: 0;
+      content: "";
+      transform: translateX(13px) translateY(-1px) rotate(-45deg);
+      transform-origin: left bottom;
+    }
   }
 }

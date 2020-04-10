@@ -1,0 +1,41 @@
+@import "../../../../models/SASS/main.scss";
+
+.Select {
+  position: relative;
+  display: flex;
+  line-height: 2.5;
+  overflow: hidden;
+  border-radius: 0.25em;
+  padding-top: 2%;
+
+  & select {
+    appearance: none;
+    outline: 0;
+    box-shadow: none;
+    background-image: none;
+    background-color: white;
+    padding: 0 0.5em;
+    color: $text-color-dark;
+    cursor: pointer;
+    border: 1.5px solid $background-header-color;
+    width: 34.6%;
+    height: 3em;
+    &::-ms-expand {
+      display: none;
+    }
+  }
+  &::after {
+    content: "\25BC";
+    position: absolute;
+    top: 20%;
+    right: 28%;
+    padding: 0 1.5%;
+    background: $background-header-color;
+    cursor: pointer;
+    pointer-events: none;
+    transition: 0.25s all ease;
+  }
+  &:hover::after {
+    color: $button-color;
+  }
+}

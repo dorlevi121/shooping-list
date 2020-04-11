@@ -27,11 +27,17 @@ class AddProduct extends Component<OwnProps> {
   onChange = (e: any) => {
     const options = this.props.productsTitle;
     const userInput = e.currentTarget.value;
+    //let filteredOptions: any = []; 
 
     const filteredOptions = options.filter(
       (optionName) =>
         optionName.toLowerCase().indexOf(userInput.toLowerCase()) > -1
     );
+    //Specific Options
+    // if(userInput) {
+    //   const regex = new RegExp(`^${userInput}`, 'i');
+    //   filteredOptions = options.sort().filter(v => regex.test(v));
+    // }
 
     this.setState({
       activeOption: 0,

@@ -18,11 +18,12 @@ interface OwnProps {
 export default class NewIngredient extends Component<OwnProps> {
   state = {
     ingredient: {
-      titleHeb: "",
+      titleHeb: this.props.ingredientTitle,
       titleEng: "",
-      type: IngredientType.OTHER,
+      type: IngredientType.OTHER
     },
   };
+
 
   handleChange = (e: any) => {
     const newIngredient = this.state.ingredient;
@@ -37,7 +38,7 @@ export default class NewIngredient extends Component<OwnProps> {
     return (
       <Modal
         onClickButton={() => this.props.addToDB(this.state.ingredient)}
-        title="הזמן סל קניות"
+        title="הוסף מוצר חדש"
         close={() => this.props.openModal()}
       >
         <div className={orderStyle.Order}>
@@ -48,7 +49,7 @@ export default class NewIngredient extends Component<OwnProps> {
                 type="text"
                 name="hebTitle"
                 onChange={this.handleChange}
-                value={this.state.ingredient.titleHeb === '' ? this.props.ingredientTitle : this.state.ingredient.titleHeb}
+                value={this.state.ingredient.titleHeb}
                 placeholder={text.hebrewTitle[this.props.language]}
                 required
               />

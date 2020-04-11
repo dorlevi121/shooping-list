@@ -36,3 +36,8 @@ export const hebrewTitle = ['Hebrew Title', 'שם המוצר בעברית'];
 export const englishTitle = ['English Title', 'שם המוצר באנגלית'];
 export const selectType = ['Please select a type', 'סוג המוצר'];
 export const addedSuccessfully = ['Added successfully', 'נוסף בהצלחה'];
+
+// Note //
+export const save = ['Save', 'שמור'];
+export const close = ['Close', 'סגור'];
+export const noNote = ['No Comments', 'אין הערות'];

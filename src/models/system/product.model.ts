@@ -6,5 +6,5 @@ export type Product = {
     check: boolean,
     id: string,
     ingredient: Ingredient,
-    note?: string
+    note: string
 }

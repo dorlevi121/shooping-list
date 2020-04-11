@@ -111,6 +111,7 @@ class Main extends Component<Props> {
       title: title,
       id: uniqueId(),
       ingredient: ingredient,
+      note: ""
     };
 
     products.unshift(newProduct);
@@ -121,7 +122,7 @@ class Main extends Component<Props> {
   deleteProduct = (i: number) => {
     const products = this.props.allProducts;
     products.splice(i, 1);
-    this.props.changePeoduct(cloneDeep(products));
+    this.props.changePeoduct(products);
   };
 
   checkedProduct = (i: number) => {
@@ -130,8 +131,14 @@ class Main extends Component<Props> {
     products[i].check = !products[i].check;
     products.sort((x, y) => (x.check === y.check ? 0 : x.check ? 1 : -1));
 
-    this.props.changePeoduct(cloneDeep(products));
+    this.props.changePeoduct(products);
   };
+
+  addNote = (i: number, note: string) => {
+    const products = this.props.allProducts;
+    products[i].note = note;
+    this.props.changePeoduct(products);
+  }
 
   openModal = () => {
     const checkedProducts = this.props.allProducts.filter(
@@ -185,7 +192,7 @@ class Main extends Component<Props> {
   };
 
   addNewIngredient = (ing: Ingredient) => {
-    console.log(this.props.ingredients);
+    console.log(ing);
 
     if (ing.titleHeb === "") return;
     this.props.addNewIngredient(ing);
@@ -215,6 +222,8 @@ class Main extends Component<Props> {
           />
         )}
 
+        
+
         {this.state.loading && <Loading />}
         {this.state.alert.show && (
           <Alert type={this.state.alert.type} text={this.state.alert.text} />
@@ -241,6 +250,7 @@ class Main extends Component<Props> {
                           i={i}
                           onDelete={this.deleteProduct}
                           onCheck={this.checkedProduct}
+                          addNote={this.addNote}
                           language={this.props.language}
                         />
                       </li>

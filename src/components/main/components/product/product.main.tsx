@@ -18,7 +18,7 @@ const ProductConponent: React.FC<OwnProps> = (props) => {
   const onClickNoteButton = (note: string) => {
     props.addNote(props.i, note);
     setmodal(!modal);
-  }
+  };
 
   return (
     <div className={productStyle.Product}>
@@ -42,6 +42,9 @@ const ProductConponent: React.FC<OwnProps> = (props) => {
         className={productStyle.Title}
         style={props.product.check ? { textDecoration: "line-through" } : {}}
       >
+        <span style={{ fontWeight: "bold" }}>
+          {props.product.note.length ? "*" : ""}
+        </span>
         {props.language === 0
           ? props.product.ingredient.titleEng
           : props.product.ingredient.titleHeb}{" "}

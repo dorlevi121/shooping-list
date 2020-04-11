@@ -18,11 +18,21 @@ const Note: React.FC<OwnProps> = (props) => {
   };
 
   return (
-    <div className={noteStyle.Note}>
+    <div className={noteStyle.Note} style={props.language==0?{marginLeft:"2%"}:{}}>
       <div className={noteStyle.Header}>
-        <p>{props.product.title}</p>
+        <p>{props.language === 1 ? props.product.title : props.product.ingredient.titleEng}</p>
+        <div
+        className={noteStyle.Button}
+        onClick={() => props.onClickButton(note)}
+      >
+        <button >
+          {note !== props.product.note
+            ? text.save[props.language]
+            : text.close[props.language]}
+        </button>
       </div>
-      <div className={noteStyle.Content}>
+      </div>
+      <div style={props.language==0?{marginLeft:"4%"}:{}} className={noteStyle.Content}>
         <input
           type="text"
           value={note}
@@ -30,18 +40,7 @@ const Note: React.FC<OwnProps> = (props) => {
           placeholder={note.length ? "" : text.noNote[props.language]}
         />
       </div>
-      <div
-        className={noteStyle.Button}
-        onClick={() => props.onClickButton(note)}
-      >
-        <Button
-          title={
-            note !== props.product.note
-              ? text.save[props.language]
-              : text.close[props.language]
-          }
-        />
-      </div>
+
     </div>
   );
 };

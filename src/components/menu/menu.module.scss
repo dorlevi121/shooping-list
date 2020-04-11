@@ -1,5 +1,6 @@
 @import "../../models/SASS/main.scss";
 .Menu {
+  z-index: 10;
   & .Button {
     & .Checkbox {
       display: none;

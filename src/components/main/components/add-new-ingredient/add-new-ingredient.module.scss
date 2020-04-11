@@ -23,6 +23,10 @@
     &::-ms-expand {
       display: none;
     }
+    @include respond(phone) {
+      width: 65%;
+      height: 2.5em;
+    }
   }
   &::after {
     content: "\25BC";
@@ -34,6 +38,21 @@
     cursor: pointer;
     pointer-events: none;
     transition: 0.25s all ease;
+
+    @include respond(phone) {
+      padding: 0 1%;
+      right: 58%;
+      top: 17%;
+    }
+    @include respond(tab-900) {
+      right: 29%;
+      top: 25%;
+    }
+    @include respond(tab-1200) {
+      right: 30%;
+      top: 30%;
+    }
+    
   }
   &:hover::after {
     color: $button-color;

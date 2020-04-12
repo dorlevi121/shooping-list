@@ -18,8 +18,8 @@ interface OwnProps {
 export default class NewIngredient extends Component<OwnProps> {
   state = {
     ingredient: {
-      titleHeb: this.props.ingredientTitle,
-      titleEng: "",
+      titleHeb: this.props.language===1?this.props.ingredientTitle:"",
+      titleEng: this.props.language===0?this.props.ingredientTitle:"",
       type: IngredientType.OTHER
     },
   };

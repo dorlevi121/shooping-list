@@ -111,7 +111,7 @@ class Main extends Component<Props> {
       title: title,
       id: uniqueId(),
       ingredient: ingredient,
-      note: ""
+      note: "",
     };
 
     products.unshift(newProduct);
@@ -138,7 +138,7 @@ class Main extends Component<Props> {
     const products = this.props.allProducts;
     products[i].note = note;
     this.props.changePeoduct(products);
-  }
+  };
 
   openModal = () => {
     const checkedProducts = this.props.allProducts.filter(
@@ -192,8 +192,6 @@ class Main extends Component<Props> {
   };
 
   addNewIngredient = (ing: Ingredient) => {
-    console.log(ing);
-
     if (ing.titleHeb === "") return;
     this.props.addNewIngredient(ing);
     this.showAlert("success", text.addedSuccessfully[this.props.language]);
@@ -222,8 +220,6 @@ class Main extends Component<Props> {
           />
         )}
 
-        
-
         {this.state.loading && <Loading />}
         {this.state.alert.show && (
           <Alert type={this.state.alert.type} text={this.state.alert.text} />
@@ -234,7 +230,14 @@ class Main extends Component<Props> {
             <div className={mainStyle.Content}>
               <div className={mainStyle.AddProduct}>
                 <AddProduct
-                  productsTitle={Object.keys(this.props.ingredients)}
+                  productsTitle={
+                    this.props.language === 1
+                      ? Object.keys(this.props.ingredients)
+                      : Object.values(this.props.ingredients).map((a: any) => {
+                          if (a.titleEng === undefined) return a.titleHeb;
+                          else return a.titleEng;
+                        })
+                  }
                   language={this.props.language}
                   addNewProduct={this.addNewProduct}
                 />

@@ -67,6 +67,7 @@ class AddProduct extends Component<OwnProps> {
                 <p
                   onClick={() => this.onProductClick(optionName)}
                   key={optionName}
+                  style={this.props.language===0?{paddingLeft:'2%'} : {paddingRight:'2%'}}
                 >
                   {optionName}
                 </p>

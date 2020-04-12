@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import noteStyle from "./note.module.scss";
 import { Product } from "../../../models/system/product.model";
-import { Button } from "../button/button";
 import * as text from "../../../assets/language/textConfig";
 
 interface OwnProps {
@@ -18,7 +17,7 @@ const Note: React.FC<OwnProps> = (props) => {
   };
 
   return (
-    <div className={noteStyle.Note} style={props.language==0?{marginLeft:"2%"}:{}}>
+    <div className={noteStyle.Note} style={props.language===0?{marginLeft:"2%"}:{}}>
       <div className={noteStyle.Header}>
         <p>{props.language === 1 ? props.product.title : props.product.ingredient.titleEng}</p>
         <div
@@ -32,7 +31,7 @@ const Note: React.FC<OwnProps> = (props) => {
         </button>
       </div>
       </div>
-      <div style={props.language==0?{marginLeft:"4%"}:{}} className={noteStyle.Content}>
+      <div style={props.language===0?{marginLeft:"4%"}:{}} className={noteStyle.Content}>
         <input
           type="text"
           value={note}

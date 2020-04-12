@@ -12,9 +12,9 @@
   z-index: 1;
   @include respond(phone) {
     width: 60%;
+    height: 15%;
     margin-right: 0;
     margin-top: -15%;
-    height: 11%;
   }
 
   @include respond(tab-900) {
@@ -38,6 +38,10 @@
     width: 90%;
     margin: auto;
     margin-bottom: 1%;
+    @include respond(phone) {
+      margin-top: 1%;
+      margin-bottom: 2%;
+    }
     & p {
       margin: 0;
       padding: 0;
@@ -68,7 +72,7 @@
       color: $background-header-color;
 
       &::placeholder {
-        color: rgba($color: $background-header-color, $alpha: .7);
+        color: rgba($color: $background-header-color, $alpha: 0.7);
         padding-right: 1%;
       }
     }

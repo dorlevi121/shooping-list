@@ -18,7 +18,7 @@ export const initialProductsListFromServer = () => {
 export const addNewProduct = (products: Product []) => {
     return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
         const firestore = getFirestore();
-        const profile = getState().firebase.profile;
+        //const profile = getState().firebase.profile;
         const authId = getState().firebase.auth.uid;
 
         firestore.doc(`users/${authId}`).get().then((doc: any) => { //get user

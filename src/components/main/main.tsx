@@ -193,6 +193,8 @@ class Main extends Component<Props> {
 
   addNewIngredient = (ing: Ingredient) => {
     if (ing.titleHeb === "") return;
+    if (ing.titleEng !== undefined)
+      ing.titleEng = ing.titleEng[0].toUpperCase() + ing.titleEng.substring(1);
     this.props.addNewIngredient(ing);
     this.showAlert("success", text.addedSuccessfully[this.props.language]);
     this.setState({ addIngredientModal: false });

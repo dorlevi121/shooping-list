@@ -62,11 +62,18 @@
             background-color: $background-product-color-hover;
           }
         }
+        & .EmptyList {
+          text-align: center;
+          font-size: $text-size;
+          color: $text-color-dark;
+        }
       }
     }
 
     & .Order {
       text-align: center;
+      margin: auto;
+      width: 30%;
       & button {
         padding: 10px;
       }

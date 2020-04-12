@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import noteStyle from "./note.module.scss";
 import { Product } from "../../../models/system/product.model";
 import * as text from "../../../assets/language/textConfig";
+import { Button } from "../button/button";
 
 interface OwnProps {
   product: Product;
@@ -17,21 +18,33 @@ const Note: React.FC<OwnProps> = (props) => {
   };
 
   return (
-    <div className={noteStyle.Note} style={props.language===0?{marginLeft:"2%"}:{}}>
+    <div
+      className={noteStyle.Note}
+      style={props.language === 0 ? { marginLeft: "2%" } : {}}
+    >
       <div className={noteStyle.Header}>
-        <p>{props.language === 1 ? props.product.title : props.product.ingredient.titleEng}</p>
+        <p className={noteStyle.ProductTitle}>
+          {props.language === 1
+            ? props.product.title
+            : props.product.ingredient.titleEng}
+        </p>
         <div
-        className={noteStyle.Button}
-        onClick={() => props.onClickButton(note)}
+          className={noteStyle.Button}
+          onClick={() => props.onClickButton(note)}
+        >
+          <Button
+            title={
+              note !== props.product.note
+                ? text.save[props.language]
+                : text.close[props.language]
+            }
+          />
+        </div>
+      </div>
+      <div
+        style={props.language === 0 ? { marginLeft: "4%" } : {}}
+        className={noteStyle.Content}
       >
-        <button >
-          {note !== props.product.note
-            ? text.save[props.language]
-            : text.close[props.language]}
-        </button>
-      </div>
-      </div>
-      <div style={props.language===0?{marginLeft:"4%"}:{}} className={noteStyle.Content}>
         <input
           type="text"
           value={note}
@@ -39,7 +52,6 @@ const Note: React.FC<OwnProps> = (props) => {
           placeholder={note.length ? "" : text.noNote[props.language]}
         />
       </div>
-
     </div>
   );
 };

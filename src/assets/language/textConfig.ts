@@ -18,6 +18,7 @@ export const myShoppingListHeader = ['My Shopping List', 'רשימת הקניו�
 export const addButton = ['Add', 'הוסף'];
 export const placeholderAddProduct = ["Add new product...", "הוסף מוצר חדש..."]
 export const orderButton = ['Order', 'הזמן'];
+export const emptyList = ['The list is empty', 'הרשימה ריקה']
 // Main Alert //
 export const orderSuccessfulAlert = ['The order was successful', "ההזמנה בוצעה בהצלחה"];
 export const fillingOutForm = ['filling out form', "שגיאה במילוי הטופס"];

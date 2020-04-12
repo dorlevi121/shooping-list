@@ -247,20 +247,24 @@ class Main extends Component<Props> {
 
               <div className={mainStyle.Products}>
                 <ul>
-                  {this.props.allProducts.map((product: Product, i: number) => {
-                    return (
-                      <li key={i} className={mainStyle.CheckedItem}>
-                        <ProductConponent
-                          product={product}
-                          i={i}
-                          onDelete={this.deleteProduct}
-                          onCheck={this.checkedProduct}
-                          addNote={this.addNote}
-                          language={this.props.language}
-                        />
-                      </li>
-                    );
-                  })}
+                  {this.props.allProducts.length > 0
+                    ? this.props.allProducts.map(
+                        (product: Product, i: number) => {
+                          return (
+                            <li key={i} className={mainStyle.CheckedItem}>
+                              <ProductConponent
+                                product={product}
+                                i={i}
+                                onDelete={this.deleteProduct}
+                                onCheck={this.checkedProduct}
+                                addNote={this.addNote}
+                                language={this.props.language}
+                              />
+                            </li>
+                          );
+                        }
+                      )
+                    : (<p className={mainStyle.EmptyList}>{text.emptyList[this.props.language]}</p>)}
                 </ul>
               </div>
               <div onClick={this.openModal} className={mainStyle.Order}>

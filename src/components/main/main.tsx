@@ -73,12 +73,12 @@ class Main extends Component<Props> {
     return true;
   }
 
+  // Add new product to list //
   addNewProduct = (productTitle: string) => {
     if (productTitle.length < 2) return;
 
     const findQuantity: any = productTitle.match(/\d/g);
-    let numb = "",
-      quantity: number;
+    let numb = "", quantity: number;
 
     if (findQuantity !== null) {
       numb = findQuantity.join("");
@@ -98,13 +98,13 @@ class Main extends Component<Props> {
     }
 
     const products = this.props.allProducts;
-    const check = products.find((p: Product) => p.title === title);
-    if (check !== undefined) {
+    const checkIfExist = products.find((p: Product) => p.title === title);
+    if (checkIfExist !== undefined) {
       this.showAlert("error", text.productExist[this.props.language]);
       this.setState({ newProduct: "" });
       return;
     }
-
+    //Build new product
     const newProduct: Product = {
       check: false,
       quantity: quantity,
@@ -113,18 +113,38 @@ class Main extends Component<Props> {
       ingredient: ingredient,
       note: "",
     };
+  
+    const unCheck: Product[] = []; //Uncheck products
+    const check: Product[] = []; //Checked products
+    for (let i = 0; i < products.length; i++) {
+      if (products[i].check) {
+        check.push(products[i]);
+        continue;
+      }
+      unCheck.push(products[i]);
+    }
+    unCheck.push(newProduct);
+    unCheck.sort((a: Product, b: Product) => {
+      let typeA = a.ingredient.type.toUpperCase(); // ignore upper and lowercase
+      let typeB = b.ingredient.type.toUpperCase(); // ignore upper and lowercase
+      if (typeA < typeB) return -1;
+      if (typeA > typeB) return 1;
+      // names must be equal
+      return 0;
+    });
 
-    products.unshift(newProduct);
-    this.props.addNewProduct(cloneDeep(products));
+    this.props.addNewProduct(cloneDeep(unCheck.concat(check)));
     this.setState({ newProduct: "" });
   };
 
+  // Delete Product //
   deleteProduct = (i: number) => {
     const products = this.props.allProducts;
     products.splice(i, 1);
     this.props.changePeoduct(products);
   };
 
+  // Check Product //
   checkedProduct = (i: number) => {
     const products = this.props.allProducts;
 
@@ -134,12 +154,14 @@ class Main extends Component<Props> {
     this.props.changePeoduct(products);
   };
 
+  // Add Note //
   addNote = (i: number, note: string) => {
     const products = this.props.allProducts;
     products[i].note = note;
     this.props.changePeoduct(products);
   };
 
+  // Open Order Modal //
   openModal = () => {
     const checkedProducts = this.props.allProducts.filter(
       (p: Product) => p.check
@@ -151,6 +173,7 @@ class Main extends Component<Props> {
     this.setState({ modal: !this.state.modal });
   };
 
+  // New Order //
   onOrder = (form: {
     supermarket: string;
     price: number | string;
@@ -183,6 +206,7 @@ class Main extends Component<Props> {
     this.showAlert("success", text.orderSuccessfulAlert[this.props.language]);
   };
 
+  // Show Alert //
   showAlert = (type: string, text: string) => {
     const alert = { show: true, type: type, text: text };
     this.setState({ alert: alert });
@@ -191,6 +215,7 @@ class Main extends Component<Props> {
     }, 1500);
   };
 
+  // Add new ingredient to DB //
   addNewIngredient = (ing: Ingredient) => {
     if (ing.titleHeb === "") return;
     if (ing.titleEng !== undefined && ing.titleEng?.length > 0)

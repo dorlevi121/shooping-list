@@ -193,7 +193,7 @@ class Main extends Component<Props> {
 
   addNewIngredient = (ing: Ingredient) => {
     if (ing.titleHeb === "") return;
-    if (ing.titleEng !== undefined)
+    if (ing.titleEng !== undefined && ing.titleEng?.length > 0)
       ing.titleEng = ing.titleEng[0].toUpperCase() + ing.titleEng.substring(1);
     this.props.addNewIngredient(ing);
     this.showAlert("success", text.addedSuccessfully[this.props.language]);
@@ -247,24 +247,28 @@ class Main extends Component<Props> {
 
               <div className={mainStyle.Products}>
                 <ul>
-                  {this.props.allProducts.length > 0
-                    ? this.props.allProducts.map(
-                        (product: Product, i: number) => {
-                          return (
-                            <li key={i} className={mainStyle.CheckedItem}>
-                              <ProductConponent
-                                product={product}
-                                i={i}
-                                onDelete={this.deleteProduct}
-                                onCheck={this.checkedProduct}
-                                addNote={this.addNote}
-                                language={this.props.language}
-                              />
-                            </li>
-                          );
-                        }
-                      )
-                    : (<p className={mainStyle.EmptyList}>{text.emptyList[this.props.language]}</p>)}
+                  {this.props.allProducts.length > 0 ? (
+                    this.props.allProducts.map(
+                      (product: Product, i: number) => {
+                        return (
+                          <li key={i} className={mainStyle.CheckedItem}>
+                            <ProductConponent
+                              product={product}
+                              i={i}
+                              onDelete={this.deleteProduct}
+                              onCheck={this.checkedProduct}
+                              addNote={this.addNote}
+                              language={this.props.language}
+                            />
+                          </li>
+                        );
+                      }
+                    )
+                  ) : (
+                    <p className={mainStyle.EmptyList}>
+                      {text.emptyList[this.props.language]}
+                    </p>
+                  )}
                 </ul>
               </div>
               <div onClick={this.openModal} className={mainStyle.Order}>

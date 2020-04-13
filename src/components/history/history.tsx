@@ -29,15 +29,11 @@ class History extends Component<Props> {
   }
   render() {
     const historyShoppingList = this.props.historyShoppingList;
-    console.log(historyShoppingList);
-
     return (
       <div className={historyStyle.History}>
         <div className={historyStyle.List}>
           {historyShoppingList.map((list: List, i: number) => {
             const sec = list.date;
-            console.log(sec);
-
             return (
               <div key={i}>
                 {i + 1}) {moment.unix(sec.seconds).format("DD/MM/YYYY")},{" "}

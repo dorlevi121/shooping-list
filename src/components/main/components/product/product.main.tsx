@@ -21,7 +21,7 @@ const ProductConponent: React.FC<OwnProps> = (props) => {
   };
 
   return (
-    <div className={productStyle.Product}>
+    <React.Fragment>
       {modal && (
         <Note
           product={props.product}
@@ -29,41 +29,42 @@ const ProductConponent: React.FC<OwnProps> = (props) => {
           onClickButton={onClickNoteButton}
         />
       )}
-
-      <span
-        className={productStyle.Delete}
-        onClick={() => props.onDelete(props.i)}
-      >
-        X
+      <div className={productStyle.Product}>
+        <span
+          className={productStyle.Delete}
+          onClick={() => props.onDelete(props.i)}
+        >
+          X
       </span>
 
-      <span
-        onClick={() => setmodal(!modal)}
-        className={productStyle.Title}
-        style={props.product.check ? { textDecoration: "line-through" } : {}}
-      >
-        <span style={{ fontWeight: "bold" }}>
-          {props.product.note.length ? "*" : ""}
-        </span>
-        {props.language === 0
-          ? props.product.ingredient.titleEng
-          : props.product.ingredient.titleHeb}{" "}
+        <span
+          onClick={() => setmodal(!modal)}
+          className={productStyle.Title}
+          style={props.product.check ? { textDecoration: "line-through" } : {}}
+        >
+          <span style={{ fontWeight: "bold" }}>
+            {props.product.note.length ? "*" : ""}
+          </span>
+          {props.language === 0
+            ? props.product.ingredient.titleEng
+            : props.product.ingredient.titleHeb}{" "}
         - {props.product.quantity}
-      </span>
-      {props.product.check ? (
-        <span
-          onClick={() => props.onCheck(props.i)}
-          style={props.language === 0 ? { marginRight: "7%" } : {}}
-          className={productStyle.CheckmarkCheck}
-        />
-      ) : (
-        <span
-          onClick={() => props.onCheck(props.i)}
-          style={props.language === 0 ? { marginRight: "7%" } : {}}
-          className={productStyle.Checkmark}
-        />
-      )}
-    </div>
+        </span>
+        {props.product.check ? (
+          <span
+            onClick={() => props.onCheck(props.i)}
+            style={props.language === 0 ? { marginRight: "7%" } : {}}
+            className={productStyle.CheckmarkCheck}
+          />
+        ) : (
+            <span
+              onClick={() => props.onCheck(props.i)}
+              style={props.language === 0 ? { marginRight: "7%" } : {}}
+              className={productStyle.Checkmark}
+            />
+          )}
+      </div>
+    </React.Fragment>
   );
 };
 

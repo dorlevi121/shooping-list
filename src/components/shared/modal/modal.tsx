@@ -10,8 +10,8 @@ interface OwnProps {
 
 const Modal: React.FC<OwnProps> = props => {
   return (
-    <div className={modalStyle.ModalBackground} >
-      <div className={modalStyle.Modal}>
+    <div className={modalStyle.ModalBackground} onClick={props.close} >
+      <div className={modalStyle.Modal} onClick={(e: any) => { e.stopPropagation(); }}>
         <div className={modalStyle.Header}>
           <h1>{props.title}</h1>
           <span onClick={props.close}>&times;</span>

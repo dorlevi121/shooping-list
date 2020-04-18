@@ -4,7 +4,7 @@
   position: absolute;
   width: 20%;
   height: 11%;
-  margin-top: -3%;
+  margin-top: -5%;
   margin-right: 2%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-radius: 5px;
@@ -14,7 +14,7 @@
     width: 60%;
     height: 15%;
     margin-right: 0;
-    margin-top: -15%;
+    margin-top: -28%;
   }
   @include respond(tab-900) {
     width: 60%;
